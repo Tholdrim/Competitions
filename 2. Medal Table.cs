@@ -28,27 +28,26 @@ namespace Competition
         }
     }
 
-    internal struct Entry
+    internal readonly struct Entry
     {
-        public string Country { get; set; }
+        public string Country { get; }
 
-        public int Gold { get; set; }
+        public int Gold { get; }
 
-        public int Silver { get; set; }
+        public int Silver { get; }
 
-        public int Bronze { get; set; }
+        public int Bronze { get; }
+
+        private Entry(string country, int gold, int silver, int bronze)
+        {
+            (Country, Gold, Silver, Bronze) = (country, gold, silver, bronze);
+        }
 
         public static Entry Parse(string line)
         {
             var data = line.Split();
 
-            return new Entry()
-            {
-                Country = data[0],
-                Gold = int.Parse(data[1]),
-                Silver = int.Parse(data[2]),
-                Bronze = int.Parse(data[3])
-            };
+            return new Entry(data[0], int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]));
         }
     }
 }
