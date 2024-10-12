@@ -30,7 +30,7 @@ namespace Competition
             }
 
             var bestTime = int.MaxValue;
-            var queue = new Queue<QueueElement>(Enumerable.Range(1, m).Select(x => new QueueElement(n, x, 1, 'v')));
+            var queue = new Queue<QueueElement>(Enumerable.Range(1, m).Select(x => new QueueElement(x, n, 1, 'v')));
 
             while (queue.TryDequeue(out var element))
             {
@@ -46,13 +46,13 @@ namespace Competition
                     bestTime = Math.Min(bestTime, element.Time);
                 }
 
-                queue.Enqueue(new QueueElement(element.Y - 1, element.X, element.Time + 1, 'v'));
-                queue.Enqueue(new QueueElement(element.Y + 1, element.X, element.Time + 1, '^'));
-                queue.Enqueue(new QueueElement(element.Y, element.X - 1, element.Time + 1, '>'));
-                queue.Enqueue(new QueueElement(element.Y, element.X + 1, element.Time + 1, '<'));
+                queue.Enqueue(new QueueElement(element.X, element.Y - 1, element.Time + 1, 'v'));
+                queue.Enqueue(new QueueElement(element.X, element.Y + 1, element.Time + 1, '^'));
+                queue.Enqueue(new QueueElement(element.X - 1, element.Y, element.Time + 1, '>'));
+                queue.Enqueue(new QueueElement(element.X + 1, element.Y, element.Time + 1, '<'));
             }
 
-            var bestPositions = Enumerable.Range(1, m).Where(p => time[1, p] == bestTime);
+            var bestPositions = Enumerable.Range(1, m).Where(x => time[1, x] == bestTime);
 
             Console.WriteLine(string.Join(" ", bestPositions));
         }
@@ -60,7 +60,7 @@ namespace Competition
 
     internal readonly struct QueueElement
     {
-        public QueueElement(int y, int x, int time, char direction)
+        public QueueElement(int x, int y, int time, char direction)
         {
             (X, Y, Time, Direction) = (x, y, time, direction);
         }
