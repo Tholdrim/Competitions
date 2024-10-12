@@ -3,7 +3,7 @@
 **Date:** 9 October 2024  
 **Duration:** 2 hours  
 **Language used:** C# 8.0  
-**Website:** https://www.isograd-testingservices.com/FR/solutions-challenges-de-code
+**Platform:** https://www.isograd-testingservices.com/FR/solutions-challenges-de-code
 
 ### Tasks solved during the competition
 
