@@ -2,7 +2,8 @@
 
 **Date:** 9 October 2024  
 **Duration:** 2 hours  
-**Language used:** C# 8.0
+**Language used:** C# 8.0  
+**Website:** https://le-matchup.com/
 
 ## Tasks solved during the competition
 
@@ -16,5 +17,4 @@
 5. [Artistic Diving](5.%20Artistic%20Diving.md)
 6. [Control Circuit](6.%20Control%20Circuit.md)
 
-https://le-matchup.com/  
 https://www.isograd-testingservices.com/FR/solutions-challenges-de-code
