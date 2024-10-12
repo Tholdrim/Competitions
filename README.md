@@ -9,7 +9,7 @@
 
 1. Universal Badge ([description](1.%20Universal%20Badge.md) / [solution](1.%20Universal%20Badge.cs))
 2. Medal Table ([description](2.%20Medal%20Table.md) / [solution](2.%20Medal%20Table.cs))
-3. Kayak Cross ([description](3.%20Kayak%20Cross.md))
+3. Kayak Cross ([description](3.%20Kayak%20Cross.md) / [solution](3.%20Kayak%20Cross.cs))
 4. Climbing ([description](4.%20Climbing.md))
 
 ### Other tasks
