@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Competition
 {
-    public class Program
+    internal class Program
     {
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public static void Main(string[] arguments)
