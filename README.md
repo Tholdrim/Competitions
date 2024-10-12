@@ -7,14 +7,14 @@
 
 ### Tasks solved during the competition
 
-1. [Universal Badge](1.%20Universal%20Badge.md) ([solution](1.%20Universal%20Badge.cs))
-2. [Medal Table](2.%20Medal%20Table.md) ([solution](2.%20Medal%20Table.cs))
-3. [Kayak Cross](3.%20Kayak%20Cross.md)
-4. [Climbing](4.%20Climbing.md)
+1. Universal Badge ([description](1.%20Universal%20Badge.md) / [solution](1.%20Universal%20Badge.cs))
+2. Medal Table ([description](2.%20Medal%20Table.md) / [solution](2.%20Medal%20Table.cs))
+3. Kayak Cross ([description](3.%20Kayak%20Cross.md))
+4. Climbing ([description](4.%20Climbing.md))
 
 ### Other tasks
 
-5. [Artistic Diving](5.%20Artistic%20Diving.md)
-6. [Control Circuit](6.%20Control%20Circuit.md)
+5. Artistic Diving ([description](5.%20Artistic%20Diving.md))
+6. Control Circuit ([description](6.%20Control%20Circuit.md))
 
 https://www.isograd-testingservices.com/FR/solutions-challenges-de-code
