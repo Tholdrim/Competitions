@@ -8,9 +8,9 @@ namespace Competition
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public static void Main(string[] arguments)
         {
-            var bestEntry = new Entry();
-
             var n = int.Parse(Console.ReadLine());
+
+            var bestEntry = new Entry();
 
             for (var i = 0; i < n; ++i)
             {
