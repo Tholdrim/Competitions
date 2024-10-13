@@ -10,12 +10,9 @@ namespace Competition
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public static void Main(string[] arguments)
         {
-            var data = Console.ReadLine().Split();
+            var (n, m) = ReadPair();
 
-            var n = int.Parse(data[0]);
-            var m = int.Parse(data[1]);
-
-            var time = new int[n + 2, m + 2];
+            var times = new int[n + 2, m + 2];
             var directions = new char[n + 2, m + 2];
 
             for (var y = 1; y <= n; ++y)
@@ -24,7 +21,7 @@ namespace Competition
 
                 for (var x = 1; x <= m; ++x)
                 {
-                    time[y, x] = int.MaxValue;
+                    times[y, x] = int.MaxValue;
                     directions[y, x] = line[x - 1];
                 }
             }
@@ -34,12 +31,12 @@ namespace Competition
 
             while (queue.TryDequeue(out var element))
             {
-                if (element.Direction != directions[element.Y, element.X] || element.Time >= time[element.Y, element.X])
+                if (element.Direction != directions[element.Y, element.X] || element.Time >= times[element.Y, element.X])
                 {
                     continue;
                 }
 
-                time[element.Y, element.X] = element.Time;
+                times[element.Y, element.X] = element.Time;
 
                 if (element.Y == 1)
                 {
@@ -52,9 +49,16 @@ namespace Competition
                 queue.Enqueue(new QueueElement(element.X + 1, element.Y, element.Time + 1, '<'));
             }
 
-            var bestPositions = Enumerable.Range(1, m).Where(x => time[1, x] == bestTime);
+            var bestPositions = Enumerable.Range(1, m).Where(x => times[1, x] == bestTime);
 
             Console.WriteLine(string.Join(" ", bestPositions));
+        }
+
+        private static (int, int) ReadPair()
+        {
+            var data = Console.ReadLine().Split();
+
+            return (int.Parse(data[0]), int.Parse(data[1]));
         }
     }
 
