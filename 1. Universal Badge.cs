@@ -25,6 +25,8 @@ namespace Competition
                 if (sum == 75)
                 {
                     Console.WriteLine(line);
+                    
+                    return;
                 }
             }
         }
