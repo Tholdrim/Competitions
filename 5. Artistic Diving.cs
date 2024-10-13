@@ -35,7 +35,7 @@ namespace Competition
                         break;
                     }
 
-                    for (int j = t; j >= moveTime * i; --j)
+                    for (var j = t; j >= moveTime * i; --j)
                     {
                         newScore[j] = Math.Max(newScore[j], score[j - moveTime * i] + currentPoints);
                     }
