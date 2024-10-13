@@ -14,5 +14,5 @@
 
 ### Other tasks
 
-5. Artistic Diving ([description](5.%20Artistic%20Diving.md))
+5. Artistic Diving ([description](5.%20Artistic%20Diving.md) / [solution](5.%20Artistic%20Diving.cs))
 6. Control Circuit ([description](6.%20Control%20Circuit.md))
