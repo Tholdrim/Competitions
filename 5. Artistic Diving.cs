@@ -26,7 +26,7 @@ namespace Competition
             {
                 var newScore = score.ToArray();
 
-                for (var i = 1; i * moveTime < t; ++i)
+                for (var i = 1; i * moveTime <= t; ++i)
                 {
                     var currentPoints = i * movePoints - i * (i - 1) / 2;
 
