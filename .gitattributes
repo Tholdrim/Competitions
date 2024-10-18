@@ -1,1 +1,4 @@
-* text eol=lf
+*          text eol=lf
+*.csproj   text eol=crlf
+*.secret.* -text diff=git-crypt filter=git-crypt
+*.sln      text eol=crlf

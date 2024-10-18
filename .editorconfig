@@ -8,3 +8,23 @@ indent_size              = 2
 indent_style             = space
 insert_final_newline     = true
 trim_trailing_whitespace = true
+
+[*.csproj]
+
+end_of_line              = crlf
+
+[*.md]
+
+trim_trailing_whitespace = false
+
+[*.sln]
+
+end_of_line              = crlf
+indent_size              = 4
+indent_style             = tab
+
+[*.cs]
+
+indent_size              = 4
+
+dotnet_style_namespace_match_folder = false
