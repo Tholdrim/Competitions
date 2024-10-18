@@ -1,0 +1,86 @@
+# Kayak Cross
+
+On the kayak cross race, the water swirls, and the athletes prepare to battle the strength of the currents. As the kayakers focus, a question lingers in your mind: which starting positions could lead to victory if they were only carried by the current?
+
+The kayak racing area is modeled as a grid with `N` rows and `M` columns, with flow directions on each cell: `v`, `>`, `^`, `<`. Where:
+
+ * `v` indicates downward flow,
+ * `>` indicates rightward flow,
+ * `^` indicates upward flow,
+ * `<` indicates leftward flow.
+
+Every second, each athlete is carried by the current to the next cell based on the direction of the current on their current position. Collisions between kayakers are ignored.
+
+Athletes start from the first row and reach the finish line by crossing the `N`-th row.
+
+**Some starting positions may not allow reaching the finish line, but there is always at least one position that does.**
+
+**The current won't push anyone outside the grid, except for crossing the finish line at row `N`.**
+
+## Data
+
+### Input
+
+**Line 1:** two integers `N` and `M`, separated by a space, representing the number of rows (6 <= `N` <= 50) and the number of columns (4 <= `M` <= 50) of the racing area.
+
+**The next `N` lines:** `M` directions (`v`, `>`, `^` ou `<`) representing the direction of the current on each cell of the given row.
+
+### Output
+
+The starting position(s) that allow crossing the finish line first (output them in increasing order, separated by spaces if multiple positions tie for first).
+
+## Example 1
+
+For the input:
+
+```
+8 4
+vvvv
+v<vv
+v>v^
+>^v<
+v>v<
+>v<^
+>vv<
+>>v<
+```
+
+The winning position is:
+
+```
+3
+```
+
+**Explanation:**
+
+Starting position 1 reaches the end after 14 seconds, position 2 reaches after 15 seconds, position 3 reaches the finish line first after 10 seconds and position 4 never reaches the finish line and remains blocked.
+
+<p align="center">
+  <img src="Example.png?raw=true" alt="Path explanation for each starting position" />
+</p>
+
+## Example 2
+
+For the input:
+
+```
+8 8
+>vvvvvv<
+>>vv<v>v
+^<v>v>vv
+>^<<vvvv
+>^v<<<vv
+v>v^<v<v
+vv<<v<<<
+vvvv<v>v
+```
+
+The winning positions are:
+
+```
+4 6
+```
+
+**Explanation:**
+
+Positions 4 and 6 reach the finish line first after 12 seconds, positions 5 and 7 arrive after 13 seconds. Starting position 8 finishes after 14 seconds. And positions 1, 2, and 3 never reach the finish line.

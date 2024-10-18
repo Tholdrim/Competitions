@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <LangVersion>8.0</LangVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>MatchUp2024.Task04</AssemblyName>
+    <RootNamespace>MatchUp2024.Task04</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+</Project>

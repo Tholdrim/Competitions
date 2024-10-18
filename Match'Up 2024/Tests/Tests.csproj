@@ -1,0 +1,28 @@
+<Project Sdk="MSTest.Sdk/3.6.1">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>MatchUp2024.Tests</AssemblyName>
+    <RootNamespace>MatchUp2024.Tests</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TestingExtensionsProfile>None</TestingExtensionsProfile>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.DoNotParallelizeAttribute" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\01. Universal Badge\01. Universal Badge.csproj" />
+    <ProjectReference Include="..\02. Medal Table\02. Medal Table.csproj" />
+    <ProjectReference Include="..\03. Kayak Cross\03. Kayak Cross.csproj" />
+    <ProjectReference Include="..\04. Climbing\04. Climbing.csproj" />
+    <ProjectReference Include="..\05. Artistic Diving\05. Artistic Diving.csproj" />
+    <ProjectReference Include="..\06. Control Circuit\06. Control Circuit.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Data/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

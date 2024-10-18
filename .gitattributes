@@ -1,1 +1,4 @@
-*    text eol=lf
+*           text eol=lf
+*.csproj    text eol=crlf
+*.png       binary
+*.sln       text eol=crlf

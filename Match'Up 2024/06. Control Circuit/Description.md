@@ -1,0 +1,166 @@
+# Control Circuit
+
+The closing ceremony is fast approaching, but an unexpected issue threatens to plunge the event into darkness: the light control circuit seems to have decided to malfunction, and the engineer who designed it is nowhere to be found.
+
+This circuit allows you to input the desired light intensities for different points on the stage and calculates the settings the spotlights need to take.
+
+To understand the circuit, you decide to dismantle it and realize that it consists of binary arithmetic units connected in a tree structure.
+
+Your goal is to find the input values that will reproduce the sought-after setting value for the spotlights.
+
+## Data
+
+### Input
+
+**Line 1:** an integer `B` (in decimal), the number of bits of the unsigned integers used in the circuit's operations, which will be `16`, `32`, or `64` bits.
+
+**Line 2:** an integer `S` (in binary), the desired output parameter for the lights.
+
+**Line 3:** an integer `N`, the number of nodes in the circuit (4 <= `N` <= 100). They are numbered from `0` to `N - 1`.
+
+**The next `N` lines:** A word indicating an operation (unary, binary, or I/O), followed by an integer indicating the operation index, and a dash, followed by one or two integers indicating the indices of the nodes connected as inputs to the current operation, according to the following format: `UNARY_OPERATION <operation-node-id> - <input-node-id-1>` or `BINARY_OPERATION <operation-node-id> - <input-node-id-1> <input-node-id-2>`. The operations are provided in order from `0` to `N - 1`. Note that the circuit is built in layers, making it a tree with the root as the **OUTPUT** of the circuit: `<operation-node-id> > <input-node-id>`.
+
+#### Some Information on the Operations
+
+For illustration, let's take two 4-bit unsigned integers: `num1 = 1010` (10) and `num2 = 0110` (6).
+
+The possible unary operations are as follows:
+
+ * **NOT** e.g.: `NOT(num1) = 0101`
+ * **LEFT_SHIFT** e.g.: `LEFT_SHIFT(num1) = 0100`
+ * **RIGHT_SHIFT** e.g.: `RIGHT_SHIFT(num1) = 0101`
+
+The possible binary operations are as follows:
+
+ * **AND** e.g.: `AND(num1, num2) = 0010`
+ * **OR** e.g.: `OR(num1, num2) = 1110`
+ * **XOR** e.g.: `XOR(num1, num2) = 1100`
+ * **SUM** e.g.: `SUM(num1, num2) = 0000`
+
+I/O operations for circuit input and output:
+
+ * **INPUT**: e.g.: `INPUT 0`, an input to the circuit, which takes a value in `B` bits to be determined.
+ * **OUTPUT**: e.g.: `OUTPUT 7 - 6`, the unique output of the circuit, whose value `S` is provided as input.
+
+### Output
+
+The binary values of the inputs, each on a separate line, which produce `S` at the output of the circuit.
+
+## Example 1
+
+For the input:
+
+```
+16
+1011011001111001
+8
+INPUT 0
+INPUT 1
+INPUT 2
+INPUT 3
+OR 4 - 3 2
+SUM 5 - 0 1
+XOR 6 - 4 5
+OUTPUT 7 - 6
+```
+
+A valid output would be:
+
+```
+0100101111001111
+1011110000111001
+1011011001100001
+0010110001010000
+```
+
+**Explanation:**
+
+Here’s the circuit structure:
+
+<p align="center">
+  <img src="Example.png?raw=true" alt="Image illustrating the circuit from Example 1." />
+</p>
+
+## Example 2
+
+For the input:
+
+```
+16
+0011111111101011
+15
+INPUT 0
+INPUT 1
+INPUT 2
+INPUT 3
+INPUT 4
+INPUT 5
+INPUT 6
+LEFT_SHIFT 7 - 4
+SUM 8 - 5 3
+OR 9 - 0 1
+XOR 10 - 2 6
+AND 11 - 7 10
+SUM 12 - 8 9
+OR 13 - 11 12
+OUTPUT 14 - 13
+```
+
+A valid output would be:
+
+```
+1110010001001100
+1000111101100001
+1101100100000100
+1000001000111011
+0000101100001100
+1011111000111011
+0000001111001111
+```
+
+## Example 3
+
+For the input:
+
+```
+32
+11011100110111110111101110011111
+22
+INPUT 0
+INPUT 1
+INPUT 2
+INPUT 3
+INPUT 4
+INPUT 5
+INPUT 6
+INPUT 7
+INPUT 8
+INPUT 9
+AND 10 - 8 1
+SUM 11 - 9 2
+SUM 12 - 7 0
+XOR 13 - 6 4
+SUM 14 - 3 5
+LEFT_SHIFT 15 - 14
+XOR 16 - 13 11
+XOR 17 - 12 10
+NOT 18 - 17
+OR 19 - 15 16
+OR 20 - 19 18
+OUTPUT 21 - 20
+```
+
+A valid output would be:
+
+```
+00001001011010100101010011100110
+11101000110000111000000101110101
+01110000101110010111111000101100
+01100111001101110010111110001011
+11001100001100111111011100011110
+10011111000100010101101000111100
+00010010000011110100010001000010
+11000001101110010011100101000110
+11101101101101100010111111000101
+01010101111011100010110000110001
+```
