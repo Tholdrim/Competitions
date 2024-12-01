@@ -23,6 +23,17 @@ This repository contains tasks and my solutions from various programming competi
 5. Artistic Diving ([description](Match'Up%202024/5.%20Artistic%20Diving.md) / [solution](Match'Up%202024/5.%20Artistic%20Diving.cs))
 6. Control Circuit ([description](Match'Up%202024/6.%20Control%20Circuit.md) / [solution](Match'Up%202024/6.%20Control%20Circuit.cs))
 
+### [Advent of Code 2024](https://adventofcode.com/2024)
+
+**Date:** December 2024  
+**Duration:** Unlimited  
+**Language used:** C# 12  
+**Platform:** https://adventofcode.com
+
+#### Tasks
+
+1. Historian Hysteria ([description](https://adventofcode.com/2024/day/1) / [solution](Advent%20of%20Code%202024/01.%20Historian%20Hysteria.cs))
+
 ## License
 
 The source code for my solutions is available under the [MIT licence](LICENSE.txt). The copyright for the tasks belongs to their respective authors. If you believe that any of these should not be published here, please contact me.
