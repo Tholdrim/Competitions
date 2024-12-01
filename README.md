@@ -6,6 +6,14 @@ The task statements and the input and output files in this repository are encryp
 
 ## Participation
 
+### [Advent of Code 2024](https://adventofcode.com/2024)
+
+**Date:** December 2024  
+**Language used:** C#  
+**Platform:** [Advent of Code](https://adventofcode.com/2024)
+
+TODO
+
 ### [Le Match'Up 2024](https://le-matchup.com/)
 
 **Date:** 9 October 2024  
