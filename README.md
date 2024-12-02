@@ -33,6 +33,7 @@ This repository contains tasks and my solutions from various programming competi
 #### Tasks
 
 1. Historian Hysteria ([description](https://adventofcode.com/2024/day/1) / [solution](Advent%20of%20Code%202024/01.%20Historian%20Hysteria.cs))
+2. Red-Nosed Reports ([description](https://adventofcode.com/2024/day/2) / [solution](Advent%20of%20Code%202024/02.%20Red-Nosed%20Reports.cs))
 
 ## License
 
