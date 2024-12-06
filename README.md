@@ -37,6 +37,7 @@ This repository contains tasks and my solutions from various programming competi
 3. Mull It Over ([description](https://adventofcode.com/2024/day/3) / [solution](Advent%20of%20Code/2024/03.%20Mull%20It%20Over.cs))
 4. Ceres Search ([description](https://adventofcode.com/2024/day/4) / [solution](Advent%20of%20Code/2024/04.%20Ceres%20Search.cs))
 5. Print Queue ([description](https://adventofcode.com/2024/day/5) / [solution](Advent%20of%20Code/2024/05.%20Print%20Queue.cs))
+6. Guard Gallivant ([description](https://adventofcode.com/2024/day/6) / [solution](Advent%20of%20Code/2024/06.%20Guard%20Gallivant.cs))
 
 ## License
 
