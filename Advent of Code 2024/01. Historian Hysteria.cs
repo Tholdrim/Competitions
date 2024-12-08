@@ -1,7 +1,7 @@
 var leftList = new List<int>();
 var rightList = new List<int>();
 
-await foreach (var line in File.ReadLinesAsync("Input 01.txt"))
+foreach (var line in File.ReadLines("Input 01.txt"))
 {
     var data = line.Split("   ");
 
