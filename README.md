@@ -40,6 +40,7 @@ This repository contains tasks and my solutions from various programming competi
 6. Guard Gallivant ([description](https://adventofcode.com/2024/day/6) / [solution](Advent%20of%20Code/2024/06.%20Guard%20Gallivant.cs))
 7. Bridge Repair ([description](https://adventofcode.com/2024/day/7) / [solution](Advent%20of%20Code/2024/07.%20Bridge%20Repair.cs))
 8. Resonant Collinearity ([description](https://adventofcode.com/2024/day/8) / [solution](Advent%20of%20Code/2024/08.%20Resonant%20Collinearity.cs))
+9. Disk Fragmenter ([description](https://adventofcode.com/2024/day/9) / [solution](Advent%20of%20Code/2024/09.%20Disk%20Fragmenter.cs))
 
 ## License
 
