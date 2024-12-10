@@ -37,6 +37,11 @@ This repository contains tasks and my solutions from various programming competi
 3. Mull It Over ([description](https://adventofcode.com/2024/day/3) / [solution](Advent%20of%20Code%202024/03.%20Mull%20It%20Over.cs))
 4. Ceres Search ([description](https://adventofcode.com/2024/day/4) / [solution](Advent%20of%20Code%202024/04.%20Ceres%20Search.cs))
 5. Print Queue ([description](https://adventofcode.com/2024/day/5) / [solution](Advent%20of%20Code%202024/05.%20Print%20Queue.cs))
+6. Guard Gallivant ([description](https://adventofcode.com/2024/day/6) / [solution](Advent%20of%20Code%202024/06.%20Guard%20Gallivant.cs))
+7. Bridge Repair ([description](https://adventofcode.com/2024/day/7) / [solution](Advent%20of%20Code%202024/07.%20Bridge%20Repair.cs))
+8. Resonant Collinearity ([description](https://adventofcode.com/2024/day/8) / [solution](Advent%20of%20Code%202024/08.%20Resonant%20Collinearity.cs))
+9. Disk Fragmenter ([description](https://adventofcode.com/2024/day/9) / [solution](Advent%20of%20Code%202024/09.%20Disk%20Fragmenter.cs))
+10. Hoof It ([description](https://adventofcode.com/2024/day/10) / [solution](Advent%20of%20Code%202024/10.%20Hoof%20It.cs))
 
 ## License
 
