@@ -16,11 +16,11 @@ for (var i = 0; i < 75; ++i)
             continue;
         }
 
-        var digits = GetNumberOfDigits(stone);
+        var digits = CountDigits(stone);
 
         if (digits % 2 == 0)
         {
-            var power = (long)Math.Pow(10, digits / 2);
+            var power = (long)Math.Pow(10.0, digits / 2);
 
             newStones[stone / power] = newStones.GetValueOrDefault(stone / power) + count;
             newStones[stone % power] = newStones.GetValueOrDefault(stone % power) + count;
@@ -44,4 +44,4 @@ result2 = stones.Sum(x => x.Value);
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
 
-static long GetNumberOfDigits(long number) => (long)(Math.Log10(number) + 1);
+static int CountDigits(long number) => (int)(Math.Log10(number) + 1);
