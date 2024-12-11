@@ -9,7 +9,7 @@ if (CountStones(stones, blinks: [25, 75]) is not [var result1, var result2])
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
 
-static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks, int index = 1)
+static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks, int blink = 1)
 {
     var newStones = new Dictionary<long, long>();
 
@@ -34,14 +34,14 @@ static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks
         }
     }
 
-    if (!blinks.Contains(index))
+    if (!blinks.Contains(blink))
     {
-        return CountStones(newStones, blinks, index + 1);
+        return CountStones(newStones, blinks, blink + 1);
     }
 
-    blinks.Remove(index);
+    blinks.Remove(blink);
 
-    return [newStones.Sum(x => x.Value), .. blinks.Count > 0 ? CountStones(newStones, blinks, index + 1) : []];
+    return [newStones.Sum(x => x.Value), .. blinks.Count > 0 ? CountStones(newStones, blinks, blink + 1) : []];
 }
 
 static int CountDigits(long number) => (number > 0 ? (int)Math.Log10(number) : 0) + 1;
