@@ -42,6 +42,7 @@ This repository contains tasks and my solutions from various programming competi
 8. Resonant Collinearity ([description](https://adventofcode.com/2024/day/8) / [solution](Advent%20of%20Code%202024/08.%20Resonant%20Collinearity.cs))
 9. Disk Fragmenter ([description](https://adventofcode.com/2024/day/9) / [solution](Advent%20of%20Code%202024/09.%20Disk%20Fragmenter.cs))
 10. Hoof It ([description](https://adventofcode.com/2024/day/10) / [solution](Advent%20of%20Code%202024/10.%20Hoof%20It.cs))
+11. Plutonian Pebbles ([description](https://adventofcode.com/2024/day/11) / [solution](Advent%20of%20Code%202024/11.%20Plutonian%20Pebbles.cs))
 
 ## License
 
