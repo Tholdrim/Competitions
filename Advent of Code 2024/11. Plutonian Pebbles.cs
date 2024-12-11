@@ -1,9 +1,7 @@
 var input = File.ReadAllText("Input 11.txt");
 var stones = input.Split(' ').Select(long.Parse).CountBy(x => x).ToDictionary(x => x.Key, x => (long)x.Value);
 
-var results = CountStones(stones, 25, 75).ToList();
-
-if (results is not [var result1, var result2])
+if (CountStones(stones, blinks: [25, 75]) is not [var result1, var result2])
 {
     throw new Exception("Implementation error.");
 }
@@ -11,50 +9,55 @@ if (results is not [var result1, var result2])
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
 
-static IEnumerable<long> CountStones(IDictionary<long, long> stones, params IList<int> blinks)
+static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks, int index = 1)
 {
-    var upperBound = blinks.Max();
+    var newStones = new Dictionary<long, long>();
 
-    for (var i = 0; i < upperBound; ++i)
+    foreach (var (stone, count) in stones)
     {
-        var newStones = new Dictionary<long, long>();
+        var digits = CountDigits(stone);
 
-        foreach (var (stone, count) in stones)
+        switch (stone, digits % 2 == 0)
         {
-            if (stone == 0)
+            case (0L, _):
             {
-                newStones[1] = newStones.GetValueOrDefault(1) + count;
+                IncrementValue(newStones, 1L, count);
 
-                continue;
+                break;
             }
 
-            var digits = CountDigits(stone);
-
-            if (digits % 2 != 0)
+            case (_, false):
             {
-                var newStone = stone * 2024L;
+                IncrementValue(newStones, stone * 2024L, count);
 
-                newStones[newStone] = newStones.GetValueOrDefault(newStone) + count;
-
-                continue;
+                break;
             }
 
-            var power = (long)Math.Pow(10.0, digits / 2);
+            case (_, true):
+            {
+                var power = (long)Math.Pow(10.0, digits / 2);
 
-            var leftStone = stone / power;
-            var rightStone = stone % power;
+                IncrementValue(newStones, stone / power, count);
+                IncrementValue(newStones, stone % power, count);
 
-            newStones[leftStone] = newStones.GetValueOrDefault(leftStone) + count;
-            newStones[rightStone] = newStones.GetValueOrDefault(rightStone) + count;
+                break;
+            }
         }
-
-        if (blinks.Contains(i + 1))
-        {
-            yield return newStones.Sum(x => x.Value);
-        }
-
-        stones = newStones;
     }
+
+    if (!blinks.Contains(index))
+    {
+        return CountStones(newStones, blinks, index + 1);
+    }
+
+    blinks.Remove(index);
+
+    return [newStones.Sum(x => x.Value), .. blinks.Count > 0 ? CountStones(newStones, blinks, index + 1) : []];
 }
 
-static int CountDigits(long number) => (int)Math.Log10(number) + 1;
+static int CountDigits(long number) => number > 0 ? (int)Math.Log10(number) + 1 : 0;
+
+static void IncrementValue(Dictionary<long, long> dictionary, long key, long increment)
+{
+    dictionary[key] = dictionary.GetValueOrDefault(key, 0L) + increment;
+}
