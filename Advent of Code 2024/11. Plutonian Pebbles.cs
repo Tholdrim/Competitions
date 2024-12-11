@@ -44,7 +44,7 @@ static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks
     return [newStones.Sum(x => x.Value), .. blinks.Count > 0 ? CountStones(newStones, blinks, index + 1) : []];
 }
 
-static int CountDigits(long number) => number > 0 ? (int)Math.Log10(number) + 1 : 1;
+static int CountDigits(long number) => (number > 0 ? (int)Math.Log10(number) : 0) + 1;
 
 static void IncrementValue(Dictionary<long, long> dictionary, long key, long increment)
 {
