@@ -20,28 +20,17 @@ static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks
         switch (stone, digits % 2 == 0)
         {
             case (0L, _):
-            {
                 IncrementValue(newStones, 1L, count);
-
                 break;
-            }
 
             case (_, false):
-            {
                 IncrementValue(newStones, stone * 2024L, count);
-
                 break;
-            }
 
-            case (_, true):
-            {
-                var power = (long)Math.Pow(10.0, digits / 2);
-
+            case (_, true) when (long)Math.Pow(10.0, digits / 2) is var power:
                 IncrementValue(newStones, stone / power, count);
                 IncrementValue(newStones, stone % power, count);
-
                 break;
-            }
         }
     }
 
@@ -55,7 +44,7 @@ static IList<long> CountStones(IDictionary<long, long> stones, IList<int> blinks
     return [newStones.Sum(x => x.Value), .. blinks.Count > 0 ? CountStones(newStones, blinks, index + 1) : []];
 }
 
-static int CountDigits(long number) => number > 0 ? (int)Math.Log10(number) + 1 : 0;
+static int CountDigits(long number) => number > 0 ? (int)Math.Log10(number) + 1 : 1;
 
 static void IncrementValue(Dictionary<long, long> dictionary, long key, long increment)
 {
