@@ -1,10 +1,11 @@
+var (result1, result2) = (0, 0);
+
 var map = File.ReadAllLines("Input 12.txt").Select(r => $"*{r}*").ToList();
 var borderRow = new string('*', map[0].Length);
 
 map = [borderRow, .. map, borderRow];
 
 var visited = new HashSet<(int, int)>();
-var regions = new List<(int, int, int)>();
 
 for (var y = 1; y < map.Count - 1; ++y)
 {
@@ -18,12 +19,10 @@ for (var y = 1; y < map.Count - 1; ++y)
         var corners = new HashSet<(int, int, char)>();
         var (area, perimeter) = CalculateRegion(x, y, map[y][x], corners);
 
-        regions.Add((area, perimeter, corners.Count));
+        result1 += area * perimeter;
+        result2 += area * corners.Count;
     }
 }
-
-var result1 = regions.Sum(r => r.Item1 * r.Item2);
-var result2 = regions.Sum(r => r.Item1 * r.Item3);
 
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
