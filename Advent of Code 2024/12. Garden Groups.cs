@@ -50,6 +50,11 @@ Console.WriteLine($"Part 2: {result2}");
     {
         perimeter++;
 
+        if (map[y - 1][x] != type)
+        {
+            corners.Add((x - 1, y - 1, '↘'));
+        }
+
         if (map[y - 1][x - 1] == type && map[y - 1][x] == type)
         {
             corners.Add((x - 1, y, '↗'));
@@ -70,6 +75,11 @@ Console.WriteLine($"Part 2: {result2}");
     else
     {
         perimeter++;
+
+        if (map[y + 1][x] != type)
+        {
+            corners.Add((x + 1, y + 1, '↖'));
+        }
 
         if (map[y - 1][x + 1] == type && map[y - 1][x] == type)
         {
@@ -92,6 +102,11 @@ Console.WriteLine($"Part 2: {result2}");
     {
         perimeter++;
 
+        if (map[y][x + 1] != type)
+        {
+            corners.Add((x + 1, y - 1, '↙'));
+        }
+
         if (map[y - 1][x - 1] == type && map[y][x - 1] == type)
         {
             corners.Add((x, y - 1, '↙'));
@@ -113,6 +128,11 @@ Console.WriteLine($"Part 2: {result2}");
     {
         perimeter++;
 
+        if (map[y][x - 1] != type)
+        {
+            corners.Add((x - 1, y + 1, '↗'));
+        }
+
         if (map[y + 1][x - 1] == type && map[y][x - 1] == type)
         {
             corners.Add((x, y + 1, '↖'));
@@ -122,26 +142,6 @@ Console.WriteLine($"Part 2: {result2}");
         {
             corners.Add((x, y + 1, '↗'));
         }
-    }
-
-    if (map[y - 1][x] != type && map[y][x - 1] != type)
-    {
-        corners.Add((x - 1, y - 1, '↘'));
-    }
-
-    if (map[y - 1][x] != type && map[y][x + 1] != type)
-    {
-        corners.Add((x + 1, y - 1, '↙'));
-    }
-
-    if (map[y + 1][x] != type && map[y][x - 1] != type)
-    {
-        corners.Add((x - 1, y + 1, '↗'));
-    }
-
-    if (map[y + 1][x] != type && map[y][x + 1] != type)
-    {
-        corners.Add((x + 1, y + 1, '↖'));
     }
 
     return (area, perimeter);
