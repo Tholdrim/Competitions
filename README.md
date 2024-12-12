@@ -43,6 +43,7 @@ This repository contains tasks and my solutions from various programming competi
 9. Disk Fragmenter ([description](https://adventofcode.com/2024/day/9) / [solution](Advent%20of%20Code%202024/09.%20Disk%20Fragmenter.cs))
 10. Hoof It ([description](https://adventofcode.com/2024/day/10) / [solution](Advent%20of%20Code%202024/10.%20Hoof%20It.cs))
 11. Plutonian Pebbles ([description](https://adventofcode.com/2024/day/11) / [solution](Advent%20of%20Code%202024/11.%20Plutonian%20Pebbles.cs))
+12. Garden Groups ([description](https://adventofcode.com/2024/day/12) / [solution](Advent%20of%20Code%202024/12.%20Garden%20Groups.cs))
 
 ## License
 
