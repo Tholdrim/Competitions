@@ -39,6 +39,13 @@ This repository contains tasks and my solutions from various programming competi
 5. Print Queue ([description](https://adventofcode.com/2024/day/5) / [solution](Advent%20of%20Code%202024/05.%20Print%20Queue.cs))
 6. Guard Gallivant ([description](https://adventofcode.com/2024/day/6) / [solution](Advent%20of%20Code%202024/06.%20Guard%20Gallivant.cs))
 7. Bridge Repair ([description](https://adventofcode.com/2024/day/7) / [solution](Advent%20of%20Code%202024/07.%20Bridge%20Repair.cs))
+8. Resonant Collinearity ([description](https://adventofcode.com/2024/day/8) / [solution](Advent%20of%20Code%202024/08.%20Resonant%20Collinearity.cs))
+9. Disk Fragmenter ([description](https://adventofcode.com/2024/day/9) / [solution](Advent%20of%20Code%202024/09.%20Disk%20Fragmenter.cs))
+10. Hoof It ([description](https://adventofcode.com/2024/day/10) / [solution](Advent%20of%20Code%202024/10.%20Hoof%20It.cs))
+11. Plutonian Pebbles ([description](https://adventofcode.com/2024/day/11) / [solution](Advent%20of%20Code%202024/11.%20Plutonian%20Pebbles.cs))
+12. Garden Groups ([description](https://adventofcode.com/2024/day/12) / [solution](Advent%20of%20Code%202024/12.%20Garden%20Groups.cs))
+13. Claw Contraption ([description](https://adventofcode.com/2024/day/13) / [solution](Advent%20of%20Code%202024/13.%20Claw%20Contraption.cs))
+14. Restroom Redoubt ([description](https://adventofcode.com/2024/day/13) / [solution](Advent%20of%20Code%202024/14.%20Restroom%20Redoubt.cs))
 
 ## License
 
