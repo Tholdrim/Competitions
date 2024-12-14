@@ -1,22 +1,24 @@
 var (result1, result2) = (0, 0);
-var directions = new (int X, int Y)[] { (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1) };
+IEnumerable<(int X, int Y)> directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)];
 
 var grid = File.ReadAllLines("Input 04.txt").Select(r => $"*{r}*").ToList();
+var borderRow = new string('*', grid[0].Length);
 
-grid.Insert(0, new string('*', grid[0].Length));
-grid.Add(grid[0]);
+grid = [borderRow, .. grid, borderRow];
 
 for (var y = 1; y < grid.Count - 1; ++y)
 {
-    for (var x = 1; x < grid[y].Length - 1; ++x)
+    for (var x = 1; x < borderRow.Length - 1; ++x)
     {
-        if (grid[y][x] == 'X')
+        switch (grid[y][x])
         {
-            result1 += CountXmasOccurrences(x, y);
-        }
-        else if (grid[y][x] == 'A' && IsPartOfXMas(x, y))
-        {
-            ++result2;
+            case 'X':
+                result1 += CountXmasOccurrences(x, y);
+                break;
+
+            case 'A' when IsPartOfXMas(x, y):
+                ++result2;
+                break;
         }
     }
 }

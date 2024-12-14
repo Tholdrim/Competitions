@@ -1,39 +1,25 @@
 var (result1, result2) = (0, 0);
 
-await foreach (var line in File.ReadLinesAsync("Input 02.txt"))
+foreach (var line in File.ReadLines("Input 02.txt"))
 {
     var levels = line.Split(' ').Select(int.Parse).ToList();
+    var isReportSafe = IsReportSafe(levels);
 
-    if (IsReportSafe(levels))
-    {
-        ++result1;
-        ++result2;
-    }
-    else if (IsReportSafeWithProblemDampener(levels))
-    {
-        ++result2;
-    }
+    result1 += isReportSafe ? 1 : 0;
+    result2 += isReportSafe || IsReportSafeWithProblemDampener(levels) ? 1 : 0;
 }
 
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
 
-static bool IsReportSafeWithProblemDampener(IList<int> levels)
+static bool IsReportSafeWithProblemDampener(List<int> levels)
 {
-    for (var j = 0; j < levels.Count; ++j)
-    {
-        var modifiedLevels = levels.Where((_, i) => i != j).ToList();
-
-        if (IsReportSafe(modifiedLevels))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return Enumerable.Range(0, levels.Count)
+        .Select(i => levels.Where((_, j) => i != j).ToList())
+        .Any(IsReportSafe);
 }
 
-static bool IsReportSafe(IList<int> levels)
+static bool IsReportSafe(List<int> levels)
 {
     var delta = levels[1] - levels[0];
 
@@ -42,15 +28,7 @@ static bool IsReportSafe(IList<int> levels)
         return false;
     }
 
-    for (var i = 1; i < levels.Count; ++i)
-    {
-        var newDelta = levels[i] - levels[i - 1];
-
-        if (newDelta * delta <= 0 || Math.Abs(newDelta) > 3)
-        {
-            return false;
-        }
-    }
-
-    return true;
+    return Enumerable.Range(1, levels.Count - 1)
+        .Select(i => levels[i] - levels[i - 1])
+        .All(d => d * delta > 0 && Math.Abs(d) <= 3);
 }
