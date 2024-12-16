@@ -1,65 +1,43 @@
-var input = File.ReadAllText("Input 09.txt");
+var blocks = new List<int?>();
 
-var fileId = 0;
-var isFreeSpace = false;
-var diskBlocks = new List<int?>();
+var input = File.ReadAllText("Input 09.txt").TrimEnd();
 
 for (var i = 0; i < input.Length; ++i)
 {
-    for (var j = 0; j < input[i] - '0'; ++j)
-    {
-        diskBlocks.Add(isFreeSpace ? null : fileId);
-    }
+    var nextBlocks = Enumerable.Repeat<int?>(i % 2 == 0 ? i / 2 : null, input[i] - '0');
 
-    fileId += isFreeSpace ? 0 : 1;
-    isFreeSpace = !isFreeSpace;
+    blocks.AddRange(nextBlocks);
 }
 
-var result1 = ComputePart1Checksum([.. diskBlocks]);
-var result2 = ComputePart2Checksum([.. diskBlocks]);
+var result1 = CalculateChecksum(CompressDiskByMovingBlocks([.. blocks]));
+var result2 = CalculateChecksum(CompressDiskByMovingFiles([.. blocks]));
 
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
 
-static long ComputePart1Checksum(IList<int?> blocks)
+static List<int?> CompressDiskByMovingBlocks(List<int?> blocks)
 {
-    var result = 0L;
-
-    for (var i = 0; i < blocks.Count; ++i)
+    for (var (i, j) = (0, blocks.Count - 1); i < j; ++i)
     {
         if (blocks[i] != null)
         {
             continue;
         }
 
-        for (var j = blocks.Count - 1; j > i; --j)
+        while (blocks[j] == null)
         {
-            if (blocks[j] == null)
-            {
-                continue;
-            }
-
-            (blocks[i], blocks[j]) = (blocks[j], null);
-
-            break;
+            --j;
         }
+
+        blocks[i] = blocks[j];
+        blocks[j] = null;
     }
 
-    for (var i = 0; i < blocks.Count; ++i)
-    {
-        if (blocks[i] is int currentFileId)
-        {
-            result += i * currentFileId;
-        }
-    }
-
-    return result;
+    return blocks;
 }
 
-static long ComputePart2Checksum(IList<int?> blocks)
+static List<int?> CompressDiskByMovingFiles(List<int?> blocks)
 {
-    var result = 0L;
-
     for (var i = blocks.Count - 1; i > 0; --i)
     {
         if (blocks[i] == null)
@@ -68,7 +46,9 @@ static long ComputePart2Checksum(IList<int?> blocks)
         }
 
         var firstIndex = -1;
-        var spaceNeeded = blocks.Where(b => b == blocks[i]).Count();
+        var additionalSpaceNeeded = GetFileSize(blocks, i);
+
+        i -= additionalSpaceNeeded - 1;
 
         for (var j = 0; j < i; ++j)
         {
@@ -82,12 +62,13 @@ static long ComputePart2Checksum(IList<int?> blocks)
             {
                 firstIndex = j;
             }
-            
-            if (j - firstIndex + 1 == spaceNeeded)
+
+            if (j - firstIndex + 1 == additionalSpaceNeeded)
             {
-                for (var k = 0; k < spaceNeeded; ++k)
+                for (var k = 0; k < additionalSpaceNeeded; ++k)
                 {
-                    (blocks[i - k], blocks[firstIndex + k]) = (blocks[firstIndex + k], blocks[i - k]);
+                    blocks[firstIndex + k] = blocks[i + k];
+                    blocks[i + k] = null;
                 }
 
                 break;
@@ -95,13 +76,22 @@ static long ComputePart2Checksum(IList<int?> blocks)
         }
     }
 
-    for (var i = 0; i < blocks.Count; ++i)
+    return blocks;
+}
+
+static int GetFileSize(List<int?> blocks, int endIndex)
+{
+    var result = 1;
+
+    while (endIndex - result > 0 && blocks[endIndex - result] == blocks[endIndex])
     {
-        if (blocks[i] is int currentFileId)
-        {
-            result += i * currentFileId;
-        }
+        ++result;
     }
 
     return result;
+}
+
+static long CalculateChecksum(List<int?> blocks)
+{
+    return blocks.Index().Sum(b => b.Item.HasValue ? b.Index * b.Item.Value : 0L);
 }
