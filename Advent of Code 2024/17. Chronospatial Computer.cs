@@ -93,11 +93,11 @@ static long FindRegisterValueBeforeCorruption(List<int> program, Registers regis
 
 static long GetComboOperand(int literalOperand, Registers registers) => literalOperand switch
 {
-    4    => registers.A,
-    5    => registers.B,
-    6    => registers.C,
-    >= 0 => literalOperand,
-    _    => throw new NotImplementedException()
+    >= 0 and <= 3 => literalOperand,
+    4             => registers.A,
+    5             => registers.B,
+    6             => registers.C,
+    _             => throw new NotImplementedException()
 };
 
 internal record Registers(long A, long B, long C);
