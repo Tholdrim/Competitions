@@ -5,7 +5,7 @@ foreach (var line in File.ReadLines("Input 07.txt"))
     var data = line.Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
 
     var expectedResult = long.Parse(data[0]);
-    var arguments = data.Skip(1).Select(long.Parse).ToList();
+    var arguments = data[1..].Select(long.Parse).ToList();
 
     var firstTryResult = CheckEquation(arguments, expectedResult, Add, Multiply);
 
