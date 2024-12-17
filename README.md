@@ -48,6 +48,7 @@ This repository contains tasks and my solutions from various programming competi
 14. Restroom Redoubt ([description](https://adventofcode.com/2024/day/14) / [solution](Advent%20of%20Code%202024/14.%20Restroom%20Redoubt.cs))
 15. Warehouse Woes ([description](https://adventofcode.com/2024/day/15) / [solution](Advent%20of%20Code%202024/15.%20Warehouse%20Woes.cs))
 16. Reindeer Maze ([description](https://adventofcode.com/2024/day/16) / [solution](Advent%20of%20Code%202024/16.%20Reindeer%20Maze.cs))
+17. Chronospatial Computer ([description](https://adventofcode.com/2024/day/17) / [solution](Advent%20of%20Code%202024/17.%20Chronospatial%20Computer.cs))
 
 ## License
 
