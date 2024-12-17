@@ -1,75 +1,70 @@
 using System.Text.RegularExpressions;
 
 var input = File.ReadAllText("Input 17.txt");
-var registers = new Dictionary<string, long>();
+
+var registers = new Registers(0L, 0L, 0L);
+var program = ProgramRegex.Match(input).Groups["program"].Value.Split(',').Select(int.Parse).ToList();
 
 foreach (var match in RegisterRegex.Matches(input).OfType<Match>())
 {
-    registers.Add(match.Groups["id"].Value, int.Parse(match.Groups["value"].Value));
-}
+    var value = long.Parse(match.Groups["value"].Value);
 
-var program = ProgramRegex.Match(input).Groups["program"].Value.Split(',').Select(int.Parse).ToList();
-
-var result1 = string.Join(",", RunProgram(program, registers["A"], registers["B"], registers["C"]));
-var result2 = 0L;
-
-for (var i = 0; i < program.Count; ++i)
-{
-    IList<int> output = [];
-    result2 = result2 * 8L - 1;
-
-    do
+    registers = match.Groups["register"].Value switch
     {
-        ++result2;
-        output = RunProgram(program, result2, registers["B"], registers["C"]);
-    }
-    while (!program.Take(^output.Count..).SequenceEqual(output));
+        "A" => registers with { A = value },
+        "B" => registers with { B = value },
+        "C" => registers with { C = value },
+        _   => throw new NotImplementedException()
+    };
 }
+
+var result1 = string.Join(",", RunProgram(program, registers));
+var result2 = FindRegisterValueBeforeCorruption(program, registers);
 
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
 
-static IList<int> RunProgram(List<int> program, long registerA, long registerB, long registerC)
+static IList<int> RunProgram(List<int> program, Registers registers)
 {
     var result = new List<int>();
-    var registers = new Dictionary<string, long> { ["A"] = registerA, ["B"] = registerB, ["C"] = registerC };
 
     for (var i = 0; i < program.Count; i += 2)
     {
-        var operand = GetComboOperand(program[i + 1], registers);
+        var literalOperand = program[i + 1];
+        var comboOperand = GetComboOperand(literalOperand, registers);
 
         switch (program[i])
         {
             case 0:
-                registers["A"] /= (int)Math.Pow(2.0, operand);
+                registers = registers with { A = registers.A >> (int)comboOperand };
                 break;
 
             case 1:
-                registers["B"] ^= program[i + 1];
+                registers = registers with { B = registers.B ^ literalOperand };
                 break;
 
             case 2:
-                registers["B"] = operand % 8;
+                registers = registers with { B = comboOperand & 0b111L };
                 break;
 
-            case 3 when registers["A"] != 0:
-                i = program[i + 1] - 2;
+            case 3 when registers.A != 0L:
+                i = literalOperand - 2;
                 break;
 
             case 4:
-                registers["B"] ^= registers["C"];
+                registers = registers with { B = registers.B ^ registers.C };
                 break;
 
             case 5:
-                result.Add((int)(operand % 8));
+                result.Add((int)comboOperand & 0b111);
                 break;
 
             case 6:
-                registers["B"] = registers["A"] / (int)Math.Pow(2.0, operand);
+                registers = registers with { B = registers.A >> (int)comboOperand };
                 break;
 
             case 7:
-                registers["C"] = registers["A"] / (int)Math.Pow(2.0, operand);
+                registers = registers with { C = registers.A >> (int)comboOperand };
                 break;
         }
     }
@@ -77,20 +72,41 @@ static IList<int> RunProgram(List<int> program, long registerA, long registerB, 
     return result;
 }
 
-static long GetComboOperand(int value, Dictionary<string, long> registers) => value switch
+static long FindRegisterValueBeforeCorruption(List<int> program, Registers registers)
 {
-    0 or 1 or 2 or 3 => value,
-    4                => registers["A"],
-    5                => registers["B"],
-    6                => registers["C"],
-    _                => throw new NotImplementedException()
+    var result = 1L;
+
+    for (var i = 0; i < program.Count; ++i)
+    {
+        var outputMatched = false;
+
+        for (result = (result - 1L) * 8L; !outputMatched; ++result)
+        {
+            var output = RunProgram(program, registers with { A = result });
+
+            outputMatched = program.Take(^output.Count..).SequenceEqual(output);
+        }
+    }
+
+    return result - 1L;
+}
+
+static long GetComboOperand(int literalOperand, Registers registers) => literalOperand switch
+{
+    4    => registers.A,
+    5    => registers.B,
+    6    => registers.C,
+    >= 0 => literalOperand,
+    _    => throw new NotImplementedException()
 };
+
+internal record Registers(long A, long B, long C);
 
 internal partial class Program
 {
-    [GeneratedRegex(@"Register (?<id>[ABC]): (?<value>\d+)")]
-    private static partial Regex RegisterRegex { get; }
-
-    [GeneratedRegex(@"Program: (?<program>[0-7](,[0-7])*)")]
+    [GeneratedRegex(@"Program: (?<program>[0-7](,[0-7])+)")]
     private static partial Regex ProgramRegex { get; }
+
+    [GeneratedRegex(@"Register (?<register>[ABC]): (?<value>\d+)")]
+    private static partial Regex RegisterRegex { get; }
 }
