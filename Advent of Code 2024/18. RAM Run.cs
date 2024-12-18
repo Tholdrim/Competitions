@@ -8,9 +8,6 @@ for (var i = 0; i < lines.Length; ++i)
     corruptedBytes.Add(new Vector2D(data[0], data[1]), i);
 }
 
-var result1 = FindShortestPath(new Vector2D(70, 70), 1024);
-string result2 = "";
-
 var range = new Range(1025, corruptedBytes.Count);
 
 while (range.GetOffsetAndLength(corruptedBytes.Count).Length > 1)
@@ -28,7 +25,9 @@ while (range.GetOffsetAndLength(corruptedBytes.Count).Length > 1)
 }
 
 var position = corruptedBytes.Where(p => p.Value == range.GetOffsetAndLength(corruptedBytes.Count).Offset).Select(p => p.Key).Single();
-result2 = $"{position.X},{position.Y}";
+
+var result1 = FindShortestPath(new Vector2D(70, 70), 1024);
+var result2 = $"{position.X},{position.Y}";
 
 Console.WriteLine($"Part 1: {result1}");
 Console.WriteLine($"Part 2: {result2}");
