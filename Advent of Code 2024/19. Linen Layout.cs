@@ -5,7 +5,7 @@ var patterns = lines[0].Split(", ");
 
 foreach (var design in lines.Skip(2))
 {
-    var possibilites = CountPossibilities(design, new Dictionary<int, long> { [0] = 1 });
+    var possibilites = CountPossibilities(design, new() { [0] = 1 });
 
     result1 += possibilites > 0 ? 1 : 0;
     result2 += possibilites;
