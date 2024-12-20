@@ -51,6 +51,7 @@ This repository contains tasks and my solutions from various programming competi
 17. Chronospatial Computer ([description](https://adventofcode.com/2024/day/17) / [solution](Advent%20of%20Code%202024/17.%20Chronospatial%20Computer.cs))
 18. RAM Run ([description](https://adventofcode.com/2024/day/18) / [solution](Advent%20of%20Code%202024/18.%20RAM%20Run.cs))
 19. Linen Layout ([description](https://adventofcode.com/2024/day/19) / [solution](Advent%20of%20Code%202024/19.%20Linen%20Layout.cs))
+20. Race Condition ([description](https://adventofcode.com/2024/day/20) / [solution](Advent%20of%20Code%202024/20.%20Race%20Condition.cs))
 
 ## License
 
