@@ -90,21 +90,17 @@ namespace AdventOfCode2024
             if (position != nextHorizontalPosition && nextHorizontalPosition != forbiddenPosition)
             {
                 var prefix = new string(position.X < targetPosition.X ? '>' : '<', Math.Abs(targetPosition.X - position.X));
+                var suffix = GetMoveSequences(nextHorizontalPosition, targetPosition, forbiddenPosition).Single();
 
-                foreach (var suffix in GetMoveSequences(nextHorizontalPosition, targetPosition, forbiddenPosition))
-                {
-                    yield return prefix + suffix;
-                }
+                yield return prefix + suffix;
             }
 
             if (position != nextVerticalPosition && nextVerticalPosition != forbiddenPosition)
             {
                 var prefix = new string(position.Y < targetPosition.Y ? 'v' : '^', Math.Abs(targetPosition.Y - position.Y));
+                var suffix = GetMoveSequences(nextVerticalPosition, targetPosition, forbiddenPosition).Single();
 
-                foreach (var suffix in GetMoveSequences(nextVerticalPosition, targetPosition, forbiddenPosition))
-                {
-                    yield return prefix + suffix;
-                }
+                yield return prefix + suffix;
             }
         }
 
