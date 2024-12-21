@@ -5,6 +5,12 @@ namespace AdventOfCode2024
     [TestClass]
     public class Day21
     {
+        private static readonly Keypad DirectionalButtons = new()
+        {
+            ['X'] = new Vector2D(0, 0), ['^'] = new Vector2D(1, 0), ['A'] = new Vector2D(2, 0),
+            ['<'] = new Vector2D(0, 1), ['v'] = new Vector2D(1, 1), ['>'] = new Vector2D(2, 1)
+        };
+
         private static readonly Keypad NumericButtons = new()
         {
             ['7'] = new Vector2D(0, 0), ['8'] = new Vector2D(1, 0), ['9'] = new Vector2D(2, 0),
@@ -13,15 +19,9 @@ namespace AdventOfCode2024
             ['X'] = new Vector2D(0, 3), ['0'] = new Vector2D(1, 3), ['A'] = new Vector2D(2, 3)
         };
 
-        private static readonly Keypad DirectionalButtons = new()
-        {
-            ['X'] = new Vector2D(0, 0), ['^'] = new Vector2D(1, 0), ['A'] = new Vector2D(2, 0),
-            ['<'] = new Vector2D(0, 1), ['v'] = new Vector2D(1, 1), ['>'] = new Vector2D(2, 1)
-        };
+        private static readonly Keypad[] FirstHistorianKeypads = [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 2)];
 
-        private static readonly Keypad[] KeypadsForFirstHistorian = [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 2)];
-
-        private static readonly Keypad[] KeypadsForSecondHistorian = [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 25)];
+        private static readonly Keypad[] SecondHistorianKeypads = [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 25)];
 
         [TestMethod]
         [DataRow("Sample 21.txt", 126384L, 154115708116294L, DisplayName = "Sample")]
@@ -34,17 +34,15 @@ namespace AdventOfCode2024
             {
                 var numericPart = long.Parse(code.Where(char.IsDigit).ToArray());
 
-                result1 += FindShortestSequenceLength(code, KeypadsForFirstHistorian) * numericPart;
-                result2 += FindShortestSequenceLength(code, KeypadsForSecondHistorian) * numericPart;
+                result1 += FindShortestSequenceLength(code, FirstHistorianKeypads, []) * numericPart;
+                result2 += FindShortestSequenceLength(code, SecondHistorianKeypads, []) * numericPart;
             }
 
             Assert.AreEqual(expectedResult1, result1);
             Assert.AreEqual(expectedResult2, result2);
         }
 
-        private static long FindShortestSequenceLength(string sequence, Keypad[] keypads) => FindShortestSequenceLength(sequence, keypads, []);
-
-        private static long FindShortestSequenceLength(string sequence, Keypad[] keypads, Dictionary<(string, int), long> cache)
+        private static long FindShortestSequenceLength(string sequence, ReadOnlySpan<Keypad> keypads, Dictionary<(string, int), long> cache)
         {
             if (cache.TryGetValue((sequence, keypads.Length), out var length))
             {
@@ -78,30 +76,36 @@ namespace AdventOfCode2024
             return cache[(sequence, keypads.Length)] = length;
         }
 
-        private static List<string> GetMoveSequences(Vector2D position, Vector2D targetPosition, Vector2D forbiddenPosition)
+        private static IEnumerable<string> GetMoveSequences(Vector2D position, Vector2D targetPosition, Vector2D forbiddenPosition)
         {
-            var result = new List<string>();
-
             var nextHorizontalPosition = new Vector2D(targetPosition.X, position.Y);
             var nextVerticalPosition = new Vector2D(position.X, targetPosition.Y);
+
+            if (nextHorizontalPosition == nextVerticalPosition)
+            {
+                yield return "A";
+                yield break;
+            }
 
             if (position != nextHorizontalPosition && nextHorizontalPosition != forbiddenPosition)
             {
                 var prefix = new string(position.X < targetPosition.X ? '>' : '<', Math.Abs(targetPosition.X - position.X));
-                var suffixes = GetMoveSequences(nextHorizontalPosition, targetPosition, forbiddenPosition);
 
-                result.AddRange(suffixes.Select(s => prefix + s));
+                foreach (var suffix in GetMoveSequences(nextHorizontalPosition, targetPosition, forbiddenPosition))
+                {
+                    yield return prefix + suffix;
+                }
             }
 
             if (position != nextVerticalPosition && nextVerticalPosition != forbiddenPosition)
             {
                 var prefix = new string(position.Y < targetPosition.Y ? 'v' : '^', Math.Abs(targetPosition.Y - position.Y));
-                var suffixes = GetMoveSequences(nextVerticalPosition, targetPosition, forbiddenPosition);
 
-                result.AddRange(suffixes.Select(s => prefix + s));
+                foreach (var suffix in GetMoveSequences(nextVerticalPosition, targetPosition, forbiddenPosition))
+                {
+                    yield return prefix + suffix;
+                }
             }
-
-            return result.Count > 0 ? result : ["A"];
         }
 
         internal record Vector2D(int X, int Y);
