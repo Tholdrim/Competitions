@@ -1,9 +1,11 @@
+using Keypad = System.Collections.Generic.Dictionary<char, AdventOfCode2024.Day21.Vector2D>;
+
 namespace AdventOfCode2024
 {
     [TestClass]
     public class Day21
     {
-        private static readonly Dictionary<char, Vector2D> NumericButtons = new()
+        private static readonly Keypad NumericButtons = new()
         {
             ['7'] = new Vector2D(0, 0), ['8'] = new Vector2D(1, 0), ['9'] = new Vector2D(2, 0),
             ['4'] = new Vector2D(0, 1), ['5'] = new Vector2D(1, 1), ['6'] = new Vector2D(2, 1),
@@ -11,11 +13,15 @@ namespace AdventOfCode2024
             ['X'] = new Vector2D(0, 3), ['0'] = new Vector2D(1, 3), ['A'] = new Vector2D(2, 3)
         };
 
-        private static readonly Dictionary<char, Vector2D> DirectionalButtons = new()
+        private static readonly Keypad DirectionalButtons = new()
         {
             ['X'] = new Vector2D(0, 0), ['^'] = new Vector2D(1, 0), ['A'] = new Vector2D(2, 0),
             ['<'] = new Vector2D(0, 1), ['v'] = new Vector2D(1, 1), ['>'] = new Vector2D(2, 1)
         };
+
+        private static readonly Keypad[] KeypadsForFirstHistorian = [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 2)];
+
+        private static readonly Keypad[] KeypadsForSecondHistorian = [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 25)];
 
         [TestMethod]
         [DataRow("Sample 21.txt", 126384L, 154115708116294L, DisplayName = "Sample")]
@@ -28,15 +34,17 @@ namespace AdventOfCode2024
             {
                 var numericPart = long.Parse(code.Where(char.IsDigit).ToArray());
 
-                result1 += FindShortestKeypadLength(code, [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 2)], []) * numericPart;
-                result2 += FindShortestKeypadLength(code, [NumericButtons, ..Enumerable.Repeat(DirectionalButtons, 25)], []) * numericPart;
+                result1 += FindShortestSequenceLength(code, KeypadsForFirstHistorian) * numericPart;
+                result2 += FindShortestSequenceLength(code, KeypadsForSecondHistorian) * numericPart;
             }
 
             Assert.AreEqual(expectedResult1, result1);
             Assert.AreEqual(expectedResult2, result2);
         }
 
-        private static long FindShortestKeypadLength(string sequence, Dictionary<char, Vector2D>[] keypads, Dictionary<(string, int), long> cache)
+        private static long FindShortestSequenceLength(string sequence, Keypad[] keypads) => FindShortestSequenceLength(sequence, keypads, []);
+
+        private static long FindShortestSequenceLength(string sequence, Keypad[] keypads, Dictionary<(string, int), long> cache)
         {
             if (cache.TryGetValue((sequence, keypads.Length), out var length))
             {
@@ -48,64 +56,47 @@ namespace AdventOfCode2024
 
             foreach (var button in sequence)
             {
-                var shortest = long.MaxValue;
+                var shortestLength = long.MaxValue;
                 var targetPosition = keypads[0][button];
 
-                foreach (var move in GetMovements(position, targetPosition, forbiddenPosition))
+                foreach (var subsequence in GetSubsequences(position, targetPosition, forbiddenPosition))
                 {
                     if (keypads.Length == 1)
                     {
-                        shortest = move.Length;
+                        shortestLength = subsequence.Length;
 
                         break;
                     }
 
-                    var candidate = FindShortestKeypadLength(move, keypads[1..], cache);
-
-                    if (candidate != -1 && (shortest == long.MaxValue || candidate < shortest))
-                    {
-                        shortest = candidate;
-                    }
+                    shortestLength = Math.Min(shortestLength, FindShortestSequenceLength(subsequence, keypads[1..], cache));
                 }
 
-                if (shortest == long.MaxValue)
-                {
-                    return cache[(sequence, keypads.Length)] = -1L;
-                }
-
-                length += shortest;
+                length += shortestLength;
                 position = targetPosition;
             }
 
             return cache[(sequence, keypads.Length)] = length;
         }
 
-        private static List<string> GetMovements(Vector2D position, Vector2D targetPosition, Vector2D forbiddenPosition)
+        private static List<string> GetSubsequences(Vector2D position, Vector2D targetPosition, Vector2D forbiddenPosition)
         {
             var result = new List<string>();
 
-            var deltaX = Math.Abs(targetPosition.X - position.X);
-            var newPositionX = new Vector2D(targetPosition.X, position.Y);
+            var nextHorizontalPosition = new Vector2D(targetPosition.X, position.Y);
+            var nextVerticalPosition = new Vector2D(position.X, targetPosition.Y);
 
-            if (deltaX > 0 && newPositionX != forbiddenPosition)
+            if (position != nextHorizontalPosition && nextHorizontalPosition != forbiddenPosition)
             {
-                var direction = position.X < targetPosition.X ? '>' : '<';
-
-                var prefix = new string(Enumerable.Repeat(direction, deltaX).ToArray());
-                var suffixes = GetMovements(newPositionX, targetPosition, forbiddenPosition);
+                var prefix = new string(position.X < targetPosition.X ? '>' : '<', Math.Abs(targetPosition.X - position.X));
+                var suffixes = GetSubsequences(nextHorizontalPosition, targetPosition, forbiddenPosition);
 
                 result.AddRange(suffixes.Select(s => prefix + s));
             }
 
-            var deltaY = Math.Abs(targetPosition.Y - position.Y);
-            var newPositionY = new Vector2D(position.X, targetPosition.Y);
-
-            if (deltaY > 0 && newPositionY != forbiddenPosition)
+            if (position != nextVerticalPosition && nextVerticalPosition != forbiddenPosition)
             {
-                var direction = position.Y < targetPosition.Y ? 'v' : '^';
-
-                var prefix = new string(Enumerable.Repeat(direction, deltaY).ToArray());
-                var suffixes = GetMovements(newPositionY, targetPosition, forbiddenPosition);
+                var prefix = new string(position.Y < targetPosition.Y ? 'v' : '^', Math.Abs(targetPosition.Y - position.Y));
+                var suffixes = GetSubsequences(nextVerticalPosition, targetPosition, forbiddenPosition);
 
                 result.AddRange(suffixes.Select(s => prefix + s));
             }
