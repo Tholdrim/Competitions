@@ -59,16 +59,16 @@ namespace AdventOfCode2024
                 var shortestLength = long.MaxValue;
                 var targetPosition = keypads[0][button];
 
-                foreach (var subsequence in GetSubsequences(position, targetPosition, forbiddenPosition))
+                foreach (var moveSequence in GetMoveSequences(position, targetPosition, forbiddenPosition))
                 {
                     if (keypads.Length == 1)
                     {
-                        shortestLength = subsequence.Length;
+                        shortestLength = moveSequence.Length;
 
                         break;
                     }
 
-                    shortestLength = Math.Min(shortestLength, FindShortestSequenceLength(subsequence, keypads[1..], cache));
+                    shortestLength = Math.Min(shortestLength, FindShortestSequenceLength(moveSequence, keypads[1..], cache));
                 }
 
                 length += shortestLength;
@@ -78,7 +78,7 @@ namespace AdventOfCode2024
             return cache[(sequence, keypads.Length)] = length;
         }
 
-        private static List<string> GetSubsequences(Vector2D position, Vector2D targetPosition, Vector2D forbiddenPosition)
+        private static List<string> GetMoveSequences(Vector2D position, Vector2D targetPosition, Vector2D forbiddenPosition)
         {
             var result = new List<string>();
 
@@ -88,7 +88,7 @@ namespace AdventOfCode2024
             if (position != nextHorizontalPosition && nextHorizontalPosition != forbiddenPosition)
             {
                 var prefix = new string(position.X < targetPosition.X ? '>' : '<', Math.Abs(targetPosition.X - position.X));
-                var suffixes = GetSubsequences(nextHorizontalPosition, targetPosition, forbiddenPosition);
+                var suffixes = GetMoveSequences(nextHorizontalPosition, targetPosition, forbiddenPosition);
 
                 result.AddRange(suffixes.Select(s => prefix + s));
             }
@@ -96,7 +96,7 @@ namespace AdventOfCode2024
             if (position != nextVerticalPosition && nextVerticalPosition != forbiddenPosition)
             {
                 var prefix = new string(position.Y < targetPosition.Y ? 'v' : '^', Math.Abs(targetPosition.Y - position.Y));
-                var suffixes = GetSubsequences(nextVerticalPosition, targetPosition, forbiddenPosition);
+                var suffixes = GetMoveSequences(nextVerticalPosition, targetPosition, forbiddenPosition);
 
                 result.AddRange(suffixes.Select(s => prefix + s));
             }
