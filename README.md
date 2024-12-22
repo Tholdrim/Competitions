@@ -53,6 +53,7 @@ This repository contains tasks and my solutions from various programming competi
 19. Linen Layout ([description](https://adventofcode.com/2024/day/19) / [solution](Advent%20of%20Code%202024/19.%20Linen%20Layout.cs))
 20. Race Condition ([description](https://adventofcode.com/2024/day/20) / [solution](Advent%20of%20Code%202024/20.%20Race%20Condition.cs))
 21. Keypad Conundrum ([description](https://adventofcode.com/2024/day/21) / [solution](Advent%20of%20Code%202024/21.%20Keypad%20Conundrum.cs))
+22. Monkey Market ([description](https://adventofcode.com/2024/day/22) / [solution](Advent%20of%20Code%202024/22.%20Monkey%20Market.cs))
 
 ## License
 
