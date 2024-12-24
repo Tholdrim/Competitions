@@ -13,7 +13,7 @@ namespace AdventOfCode2024
 
             var wires = lines
                 .TakeWhile(l => l.Length > 0)
-                .Select(l => l.Split([':', ' '], StringSplitOptions.RemoveEmptyEntries))
+                .Select(l => l.Split(": "))
                 .ToDictionary(d => d[0], d => int.Parse(d[1]));
 
             var gates = lines[(wires.Count + 1)..]
