@@ -55,6 +55,7 @@ This repository contains tasks and my solutions from various programming competi
 21. Keypad Conundrum ([description](https://adventofcode.com/2024/day/21) / [solution](Advent%20of%20Code%202024/21.%20Keypad%20Conundrum.cs))
 22. Monkey Market ([description](https://adventofcode.com/2024/day/22) / [solution](Advent%20of%20Code%202024/22.%20Monkey%20Market.cs))
 23. LAN Party ([description](https://adventofcode.com/2024/day/23) / [solution](Advent%20of%20Code%202024/23.%20LAN%20Party.cs))
+24. Crossed Wires ([description](https://adventofcode.com/2024/day/24) / [solution](Advent%20of%20Code%202024/24.%20Crossed%20Wires.cs))
 
 ## License
 
