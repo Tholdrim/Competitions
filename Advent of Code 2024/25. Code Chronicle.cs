@@ -9,52 +9,28 @@ namespace AdventOfCode2024
         public void Solve(string fileName, int expectedResult)
         {
             var lines = File.ReadAllLines(fileName);
-            var height = lines.TakeWhile(l => l.Length > 0).Count();
+
             var width = lines[0].Length;
+            var height = lines.TakeWhile(l => l.Length > 0).Count();
 
             var locks = new List<int[]>();
             var keys = new List<int[]>();
 
             for (var i = 0; i < lines.Length; i += height + 1)
             {
+                var heights = new int[width];
                 var schematic = lines[i..(i + height)];
+                var collection = schematic[0][0] == '#' ? locks : keys;
 
-                if (schematic[0].Contains('.'))
+                for (var x = 0; x < width; ++x)
                 {
-                    var key = new int[width];
-
-                    for (var j = 0; j < width; ++j)
-                    {
-                        key[j] = height - 2 - Enumerable.Range(1, height - 1).TakeWhile(y => schematic[y][j] == '.').Count();
-                    }
-
-                    keys.Add(key);
+                    heights[x] = Enumerable.Range(0, height).Count(y => schematic[y][x] == '#');
                 }
-                else
-                {
-                    var @lock = new int[width];
 
-                    for (var j = 0; j < width; ++j)
-                    {
-                        @lock[j] = Enumerable.Range(1, height - 1).TakeWhile(y => schematic[y][j] == '#').Count();
-                    }
-
-                    locks.Add(@lock) ;
-                }
+                collection.Add(heights);
             }
 
-            var result = 0;
-
-            for (var i = 0; i < locks.Count; ++i)
-            {
-                for (var j = 0; j < keys.Count; ++j)
-                {
-                    if (Enumerable.Range(0, width).All(k => locks[i][k] + keys[j][k] <= height - 2))
-                    {
-                        ++result;
-                    }
-                }
-            }
+            var result = keys.Sum(k => locks.Count(l => Enumerable.Range(0, width).All(i => k[i] + l[i] <= height)));
 
             Assert.AreEqual(expectedResult, result);
         }
