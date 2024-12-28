@@ -1,2 +1,3 @@
-*     text eol=crlf
-*.png binary
+*                                 text eol=crlf
+*.png                             binary
+*[[:space:]]-[[:space:]]Input.txt filter=git-crypt diff=git-crypt
