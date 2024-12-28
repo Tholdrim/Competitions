@@ -1,46 +1,62 @@
-var strictAntinodes = new HashSet<Vector2D>();
-var harmonicAntinodes = new HashSet<Vector2D>();
-
-var lines = File.ReadAllLines("Input 08.txt");
-
-var antennaGroups = lines.Index()
-    .SelectMany(l => l.Item.Index(), (l, c) => new { Antenna = c.Item, Position = new Vector2D(c.Index, l.Index) })
-    .Where(e => e.Antenna != '.')
-    .GroupBy(e => e.Antenna, e => e.Position);
-
-foreach (var (position, delta) in antennaGroups.SelectMany(GetDeltas))
+namespace AdventOfCode2024
 {
-    var antinodePosition = position + delta;
-
-    for (var i = 0; antinodePosition.IsValidPosition(width: lines[0].Length, height: lines.Length); ++i)
+    [TestClass]
+    public class Day08
     {
-        harmonicAntinodes.Add(antinodePosition);
-
-        if (i == 1)
+        [TestMethod]
+        [DataRow("Sample 08 (1).txt", 3, 9, DisplayName = "Sample 1")]
+        [DataRow("Sample 08 (2).txt", 14, 34, DisplayName = "Sample 2")]
+        [DataRow("Input 08.txt", 354, 1263, DisplayName = "Input")]
+        public void Solve(string fileName, int expectedResult1, int expectedResult2)
         {
-            strictAntinodes.Add(antinodePosition);
+            var strictAntinodes = new HashSet<Vector2D>();
+            var harmonicAntinodes = new HashSet<Vector2D>();
+
+            var lines = File.ReadAllLines(fileName);
+
+            var antennaGroups = Enumerable.Range(0, lines.Length)
+                .SelectMany(y => Enumerable.Range(0, lines[y].Length), (y, x) => new { Antenna = lines[y][x], Position = new Vector2D(x, y) })
+                .Where(e => e.Antenna != '.')
+                .GroupBy(e => e.Antenna, e => e.Position);
+
+            foreach (var (position, delta) in antennaGroups.SelectMany(g => CalculateDeltas([.. g])))
+            {
+                var antinodePosition = position + delta;
+
+                for (var i = 0; antinodePosition.IsValidPosition(width: lines[0].Length, height: lines.Length); ++i)
+                {
+                    harmonicAntinodes.Add(antinodePosition);
+
+                    if (i == 1)
+                    {
+                        strictAntinodes.Add(antinodePosition);
+                    }
+
+                    antinodePosition += delta;
+                }
+            }
+
+            var result1 = strictAntinodes.Count;
+            var result2 = harmonicAntinodes.Count;
+
+            Assert.AreEqual(expectedResult1, result1);
+            Assert.AreEqual(expectedResult2, result2);
         }
 
-        antinodePosition += delta;
+        private static IEnumerable<(Vector2D Position, Vector2D Delta)> CalculateDeltas(Vector2D[] positions)
+        {
+            return positions.SelectMany((_, i) => SkipElement(i), (p1, p2) => (p1, p2 - p1));
+
+            Vector2D[] SkipElement(int index) => [.. positions[..index], .. positions[(index + 1)..]];
+        }
+
+        private readonly record struct Vector2D(int X, int Y)
+        {
+            public bool IsValidPosition(int width, int height) => 0 <= X && X < width && 0 <= Y && Y < height;
+
+            public static Vector2D operator +(Vector2D a, Vector2D b) => new(a.X + b.X, a.Y + b.Y);
+
+            public static Vector2D operator -(Vector2D a, Vector2D b) => new(a.X - b.X, a.Y - b.Y);
+        }
     }
-}
-
-var result1 = strictAntinodes.Count;
-var result2 = harmonicAntinodes.Count;
-
-Console.WriteLine($"Part 1: {result1}");
-Console.WriteLine($"Part 2: {result2}");
-
-IEnumerable<(Vector2D Position, Vector2D Delta)> GetDeltas(IEnumerable<Vector2D> positions)
-{
-    return positions.SelectMany(p => positions.Except([p]), (p1, p2) => (Position: p1, Delta: p2 - p1));
-}
-
-record Vector2D(int X, int Y)
-{
-    public bool IsValidPosition(int width, int height) => 0 <= X && X < width && 0 <= Y && Y < height;
-
-    public static Vector2D operator +(Vector2D a, Vector2D b) => new(a.X + b.X, a.Y + b.Y);
-
-    public static Vector2D operator -(Vector2D a, Vector2D b) => new(a.X - b.X, a.Y - b.Y);
 }

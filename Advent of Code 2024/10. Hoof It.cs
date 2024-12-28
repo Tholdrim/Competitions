@@ -1,103 +1,76 @@
-var (result1, result2) = (0, 0);
-
-var map = File.ReadAllLines("Input 10.txt").Select(r => $"*{r}*").ToList();
-var borderRow = new string('*', map[0].Length);
-
-map = [borderRow, .. map, borderRow];
-
-for (var y = 1; y < map.Count - 1; ++y)
+namespace AdventOfCode2024
 {
-    for (var x = 1; x < borderRow.Length - 1; ++x)
+    [TestClass]
+    public class Day10
     {
-        switch (map[y][x])
+        private static readonly IEnumerable<Vector2D> Directions = [new(-1, 0), new(1, 0), new(0, -1), new(0, 1)];
+
+        [TestMethod]
+        [DataRow("Sample 10.txt", 36, 81, DisplayName = "Sample")]
+        [DataRow("Input 10.txt", 737, 1619, DisplayName = "Input")]
+        public void Solve(string fileName, int expectedResult1, int expectedResult2)
         {
-            case '0':
-                result1 += CountTrailheadScore(x, y);
-                result2 += CountTrailheadRating(x, y);
-                break;
+            var (result1, result2) = (0, 0);
+
+            var map = File.ReadLines(fileName).Select(l => "*" + l + "*").ToArray();
+            var borderRow = new string('*', map[0].Length);
+
+            map = [borderRow, .. map, borderRow];
+
+            for (var y = 1; y < map.Length - 1; ++y)
+            {
+                for (var x = 1; x < map[y].Length - 1; ++x)
+                {
+                    if (map[y][x] == '0')
+                    {
+                        var (score, rating) = CalculateTrailheadMetrics(map, x, y);
+
+                        result1 += score;
+                        result2 += rating;
+                    }
+                }
+            }
+
+            Assert.AreEqual(expectedResult1, result1);
+            Assert.AreEqual(expectedResult2, result2);
+        }
+
+        private static (int Score, int Rating) CalculateTrailheadMetrics(string[] map, int x, int y)
+        {
+            var (score, rating) = (0, 0);
+
+            var visitedPeaks = new HashSet<Vector2D>();
+            var stack = new Stack<(Vector2D Position, char Height)>([(new(x, y), '0')]);
+
+            while (stack.TryPop(out var item))
+            {
+                if (item.Height == '9')
+                {
+                    score += visitedPeaks.Add(item.Position) ? 1 : 0;
+                    ++rating;
+
+                    continue;
+                }
+
+                var nextHeight = (char)(item.Height + 1);
+
+                foreach (var direction in Directions)
+                {
+                    var nextPosition = item.Position + direction;
+
+                    if (map[nextPosition.Y][nextPosition.X] == nextHeight)
+                    {
+                        stack.Push(new(nextPosition, nextHeight));
+                    }
+                }
+            }
+
+            return (score, rating);
+        }
+
+        private readonly record struct Vector2D(int X, int Y)
+        {
+            public static Vector2D operator +(Vector2D a, Vector2D b) => new(a.X + b.X, a.Y + b.Y);
         }
     }
 }
-
-int CountTrailheadScore(int x, int y)
-{
-    var result = 0;
-    var visited = new HashSet<(int, int)>();
-    var queue = new Queue<(int, int, char)>([(x, y, '0')]);
-
-    while (queue.TryDequeue(out var item))
-    {
-        var (x2, y2, height) = item;
-
-        if (visited.Contains((x2, y2)))
-        {
-            continue;
-        }
-
-        visited.Add((x2, y2));
-
-        if (height == '9')
-        {
-            ++result;
-            continue;
-        }
-
-        if (map[y2][x2 - 1] == height + 1)
-        {
-            queue.Enqueue((x2 - 1, y2, (char)(height + 1)));
-        }
-        if (map[y2][x2 + 1] == height + 1)
-        {
-            queue.Enqueue((x2 + 1, y2, (char)(height + 1)));
-        }
-        if (map[y2 - 1][x2] == height + 1)
-        {
-            queue.Enqueue((x2, y2 - 1, (char)(height + 1)));
-        }
-        if (map[y2 + 1][x2] == height + 1)
-        {
-            queue.Enqueue((x2, y2 + 1, (char)(height + 1)));
-        }
-    }
-
-    return result;
-}
-
-int CountTrailheadRating(int x, int y)
-{
-    var result = 0;
-    var queue = new Queue<(int, int, char)>([(x, y, '0')]);
-
-    while (queue.TryDequeue(out var item))
-    {
-        var (x2, y2, height) = item;
-
-        if (height == '9')
-        {
-            ++result;
-            continue;
-        }
-
-        if (map[y2][x2 - 1] == height + 1)
-        {
-            queue.Enqueue((x2 - 1, y2, (char)(height + 1)));
-        }
-        if (map[y2][x2 + 1] == height + 1)
-        {
-            queue.Enqueue((x2 + 1, y2, (char)(height + 1)));
-        }
-        if (map[y2 - 1][x2] == height + 1)
-        {
-            queue.Enqueue((x2, y2 - 1, (char)(height + 1)));
-        }
-        if (map[y2 + 1][x2] == height + 1)
-        {
-            queue.Enqueue((x2, y2 + 1, (char)(height + 1)));
-        }
-    }
-
-    return result;
-}
-
-Console.WriteLine($"Part 1: {result1}");
-Console.WriteLine($"Part 2: {result2}");

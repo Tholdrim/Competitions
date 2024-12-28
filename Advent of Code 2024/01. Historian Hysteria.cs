@@ -4,8 +4,8 @@ namespace AdventOfCode2024
     public class Day01
     {
         [TestMethod]
-        [DataRow("Sample 01.txt", 11, 31, DisplayName = "Sample")]
-        [DataRow("Input 01.txt", 1197984, 23387399, DisplayName = "Input")]
+        [DataRow("01. Historian Hysteria - Sample.txt", 11, 31, DisplayName = "Sample")]
+        [DataRow("01. Historian Hysteria - Input.txt", 1197984, 23387399, DisplayName = "Input")]
         public void Solve(string fileName, int expectedResult1, int expectedResult2)
         {
             var leftList = new List<int>();

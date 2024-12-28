@@ -13,65 +13,86 @@ namespace AdventOfCode2024
 
             map = [borderRow, .. map, borderRow];
 
-            var startingPosition = Vector2D.GetAllPositions(map).First(p => map[p.Y][p.X] == '^');
-            var (result1, result2) = PerformGuardPatrol(map, startingPosition, new Vector2D(0, -1));
+            var startingPosition = FindPosition(map, '^');
+            var (result1, result2) = PerformGuardPatrol(map, startingPosition);
 
             Assert.AreEqual(expectedResult1, result1);
             Assert.AreEqual(expectedResult2, result2);
         }
 
-        private static PatrolResult PerformGuardPatrol(string[] map, Vector2D position, Vector2D direction, Vector2D? obstructionPosition = null)
+        private static (int, int) PerformGuardPatrol(string[] map, Vector2D position)
         {
-            var obstructionPositions = new List<Vector2D>();
-            var guardMovements = new Dictionary<Vector2D, List<Vector2D>>();
+            var direction = new Vector2D(0, -1);
+            var visitedPositions = new HashSet<Vector2D>();
+            var obstructionCandidates = new List<(Vector2D Position, Vector2D Direction, Vector2D ObstructionPosition)>();
 
-            while (map[position.Y][position.X] != '*' && !guardMovements.GetValueOrDefault(position, []).Contains(direction))
+            while (map[position.Y][position.X] != '*')
             {
                 var nextPosition = position + direction;
 
-                guardMovements[position] = [.. guardMovements.GetValueOrDefault(position, []), direction];
-
-                if (nextPosition == obstructionPosition || map[nextPosition.Y][nextPosition.X] == '#')
+                if (map[nextPosition.Y][nextPosition.X] == '#')
                 {
                     direction = direction.RotateVector();
 
                     continue;
                 }
 
-                if (obstructionPosition == null && !guardMovements.ContainsKey(nextPosition))
-                {
-                    var updatedPatrolResult = PerformGuardPatrol(map, position, direction.RotateVector(), obstructionPosition: nextPosition);
+                visitedPositions.Add(position);
 
-                    if (updatedPatrolResult.IsLooped)
-                    {
-                        obstructionPositions.Add(nextPosition);
-                    }
+                if (!visitedPositions.Contains(nextPosition))
+                {
+                    obstructionCandidates.Add((position, direction.RotateVector(), nextPosition));
                 }
 
                 position = nextPosition;
             }
 
-            return new(guardMovements.Keys.Count, obstructionPositions.Count)
-            {
-                IsLooped = guardMovements.GetValueOrDefault(position, []).Contains(direction)
-            };
+            var obstructions = obstructionCandidates.AsParallel().Count(x => IsLooped(map, x.Position, x.Direction, x.ObstructionPosition));
+
+            return (visitedPositions.Count, obstructions);
         }
 
-        private record PatrolResult(int Positions, int Obstructions)
+        private static bool IsLooped(string[] map, Vector2D position, Vector2D direction, Vector2D obstructionPosition)
         {
-            public bool IsLooped { get; init; }
+            var mapSize = map.Length * map[0].Length;
+            var guardMovements = new bool[mapSize * 4];
+
+            while (map[position.Y][position.X] != '*' && (guardMovements[GetCurrentIndex()] ^= true))
+            {
+                var nextPosition = position + direction;
+
+                if (map[nextPosition.Y][nextPosition.X] == '#' || nextPosition == obstructionPosition)
+                {
+                    direction = direction.RotateVector();
+
+                    continue;
+                }
+
+                position = nextPosition;
+            }
+
+            return map[position.Y][position.X] != '*';
+
+            int GetCurrentIndex()
+            {
+                var directionIndex = (4 + 3 * direction.Y + direction.X) / 2;
+
+                return directionIndex * mapSize + map.Length * position.X + position.Y;
+            }
         }
 
-        private record Vector2D(int X, int Y)
+        private static Vector2D FindPosition(string[] map, char element)
+        {
+            return Enumerable.Range(1, map.Length - 2)
+                .SelectMany(y => Enumerable.Range(1, map[y].Length - 2), (y, x) => new Vector2D(x, y))
+                .First(p => map[p.Y][p.X] == element);
+        }
+
+        private readonly record struct Vector2D(int X, int Y)
         {
             public Vector2D RotateVector() => new(-Y, X);
 
             public static Vector2D operator +(Vector2D a, Vector2D b) => new(a.X + b.X, a.Y + b.Y);
-
-            public static IEnumerable<Vector2D> GetAllPositions(string[] map)
-            {
-                return Enumerable.Range(1, map.Length - 1).SelectMany(y => Enumerable.Range(1, map[0].Length - 1), (y, x) => new Vector2D(x, y));
-            }
         }
     }
 }
