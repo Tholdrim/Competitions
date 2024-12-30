@@ -4,8 +4,7 @@ namespace AdventOfCode2024
     public class Day08
     {
         [TestMethod]
-        [DataRow("Sample 08 (1).txt", 3, 9, DisplayName = "Sample 1")]
-        [DataRow("Sample 08 (2).txt", 14, 34, DisplayName = "Sample 2")]
+        [DataRow("Sample 08.txt", 14, 34, DisplayName = "Sample")]
         [DataRow("Input 08.txt", 354, 1263, DisplayName = "Input")]
         public void Solve(string fileName, int expectedResult1, int expectedResult2)
         {
@@ -19,9 +18,9 @@ namespace AdventOfCode2024
                 .Where(e => e.Antenna != '.')
                 .GroupBy(e => e.Antenna, e => e.Position);
 
-            foreach (var (position, delta) in antennaGroups.SelectMany(g => CalculateDeltas([.. g])))
+            foreach (var (position, offset) in antennaGroups.SelectMany(g => ComputeAntinodeOffsets([.. g])))
             {
-                var antinodePosition = position + delta;
+                var antinodePosition = position + offset;
 
                 for (var i = 0; antinodePosition.IsValidPosition(width: lines[0].Length, height: lines.Length); ++i)
                 {
@@ -32,7 +31,7 @@ namespace AdventOfCode2024
                         strictAntinodes.Add(antinodePosition);
                     }
 
-                    antinodePosition += delta;
+                    antinodePosition += offset;
                 }
             }
 
@@ -43,7 +42,7 @@ namespace AdventOfCode2024
             Assert.AreEqual(expectedResult2, result2);
         }
 
-        private static IEnumerable<(Vector2D Position, Vector2D Delta)> CalculateDeltas(Vector2D[] positions)
+        private static IEnumerable<(Vector2D Position, Vector2D Offset)> ComputeAntinodeOffsets(Vector2D[] positions)
         {
             return positions.SelectMany((_, i) => SkipElement(i), (p1, p2) => (p1, p2 - p1));
 

@@ -19,7 +19,7 @@ namespace AdventOfCode2024
 
             for (var y = 1; y < grid.Length - 1; ++y)
             {
-                for (var x = 1; x < borderRow.Length - 1; ++x)
+                for (var x = 1; x < grid[y].Length - 1; ++x)
                 {
                     switch (grid[y][x])
                     {

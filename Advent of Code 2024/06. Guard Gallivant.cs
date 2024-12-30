@@ -13,7 +13,7 @@ namespace AdventOfCode2024
 
             map = [borderRow, .. map, borderRow];
 
-            var startingPosition = FindPosition(map, '^');
+            var startingPosition = LocateFirstOccurrence(map, '^');
             var (result1, result2) = PerformGuardPatrol(map, startingPosition);
 
             Assert.AreEqual(expectedResult1, result1);
@@ -41,13 +41,13 @@ namespace AdventOfCode2024
 
                 if (!visitedPositions.Contains(nextPosition))
                 {
-                    obstructionCandidates.Add((position, direction.RotateVector(), nextPosition));
+                    obstructionCandidates.Add(new(position, direction.RotateVector(), nextPosition));
                 }
 
                 position = nextPosition;
             }
 
-            var obstructions = obstructionCandidates.AsParallel().Count(x => IsLooped(map, x.Position, x.Direction, x.ObstructionPosition));
+            var obstructions = obstructionCandidates.AsParallel().Count(c => IsLooped(map, c.Position, c.Direction, c.ObstructionPosition));
 
             return (visitedPositions.Count, obstructions);
         }
@@ -81,7 +81,7 @@ namespace AdventOfCode2024
             }
         }
 
-        private static Vector2D FindPosition(string[] map, char element)
+        private static Vector2D LocateFirstOccurrence(string[] map, char element)
         {
             return Enumerable.Range(1, map.Length - 2)
                 .SelectMany(y => Enumerable.Range(1, map[y].Length - 2), (y, x) => new Vector2D(x, y))

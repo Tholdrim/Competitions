@@ -26,7 +26,7 @@ namespace AdventOfCode2024
 
             foreach (var update in updates)
             {
-                var sortedUpdate = CloneAndSort(update, comparer);
+                var sortedUpdate = CloneAndSortArray(update, comparer);
                 ref var result = ref update.SequenceEqual(sortedUpdate) ? ref result1 : ref result2;
 
                 result += sortedUpdate[sortedUpdate.Length / 2];
@@ -36,7 +36,7 @@ namespace AdventOfCode2024
             Assert.AreEqual(expectedResult2, result2);
         }
 
-        private static int[] CloneAndSort(ReadOnlySpan<int> array, IComparer<int> comparer)
+        private static int[] CloneAndSortArray(ReadOnlySpan<int> array, IComparer<int> comparer)
         {
             var result = array.ToArray();
 

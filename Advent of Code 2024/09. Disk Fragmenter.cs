@@ -105,7 +105,7 @@ namespace AdventOfCode2024
                 switch (i % 2)
                 {
                     case 0:
-                        fileBlocks.Push((i / 2, index, length));
+                        fileBlocks.Push(new(i / 2, index, length));
                         Array.Fill(blocksArray, i / 2, index, length);
                         break;
 

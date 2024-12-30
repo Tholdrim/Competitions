@@ -17,17 +17,17 @@ namespace AdventOfCode2024
                 var expectedResult = long.Parse(data[0]);
                 var arguments = data[1..].Select(long.Parse).ToArray();
 
-                var firstTryResult = CheckEquation(arguments, expectedResult, Subtract, Divide);
+                var firstTryResult = ValidateEquation(arguments, expectedResult, Subtract, Divide);
 
                 result1 += firstTryResult ? expectedResult : 0L;
-                result2 += firstTryResult || CheckEquation(arguments, expectedResult, Subtract, Divide, Split) ? expectedResult : 0L;
+                result2 += firstTryResult || ValidateEquation(arguments, expectedResult, Subtract, Divide, Deconcatenate) ? expectedResult : 0L;
             }
 
             Assert.AreEqual(expectedResult1, result1);
             Assert.AreEqual(expectedResult2, result2);
         }
 
-        private static bool CheckEquation(long[] arguments, long expectedResult, params IEnumerable<Func<long, long, long?>> operations)
+        private static bool ValidateEquation(long[] arguments, long expectedResult, params IEnumerable<Func<long, long, long>> operations)
         {
             var stack = new Stack<(int Index, long Result)>([(1, expectedResult)]);
 
@@ -35,9 +35,11 @@ namespace AdventOfCode2024
             {
                 if (item.Index < arguments.Length)
                 {
-                    foreach (var result in operations.Select(o => o(item.Result, arguments[^item.Index])).Where(r => r >= arguments[0]))
+                    var operationResults = operations.Select(o => o(item.Result, arguments[^item.Index]));
+
+                    foreach (var result in operationResults.Where(r => r >= arguments[0]))
                     {
-                        stack.Push((item.Index + 1, result!.Value));
+                        stack.Push(new(item.Index + 1, result));
                     }
                 }
                 else if (item.Result == arguments[0])
@@ -49,25 +51,25 @@ namespace AdventOfCode2024
             return false;
         }
 
-        private static long? Subtract(long difference, long subtrahend) => difference - subtrahend;
+        private static long Subtract(long difference, long subtrahend) => difference - subtrahend;
 
-        private static long? Divide(long quotient, long divisor)
+        private static long Divide(long quotient, long divisor)
         {
             if (divisor == 0 || quotient % divisor != 0)
             {
-                return null;
+                return -1;
             }
 
             return quotient / divisor;
         }
 
-        private static long? Split(long result, long suffix)
+        private static long Deconcatenate(long result, long suffix)
         {
             var divisor = (long)Math.Pow(10.0, (int)Math.Log10(suffix) + 1.0);
 
             if (result % divisor != suffix)
             {
-                return null;
+                return -1;
             }
 
             return result / divisor;
