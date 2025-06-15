@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Descriptions/">
+    <File Path="Descriptions/01 - Universal Badge.secret.md" />
+    <File Path="Descriptions/02 - Medal Table.secret.md" />
+    <File Path="Descriptions/03 - Kayak Cross.secret.md" />
+    <File Path="Descriptions/04 - Climbing.secret.md" />
+    <File Path="Descriptions/05 - Artistic Diving.secret.md" />
+    <File Path="Descriptions/06 - Control Circuit.secret.md" />
+  </Folder>
+  <Folder Name="/Solutions/">
+    <Project Path="Solutions/01 - Universal Badge/01 - Universal Badge.csproj" />
+    <Project Path="Solutions/02 - Medal Table/02 - Medal Table.csproj" />
+    <Project Path="Solutions/03 - Kayak Cross/03 - Kayak Cross.csproj" />
+    <Project Path="Solutions/04 - Climbing/04 - Climbing.csproj" />
+    <Project Path="Solutions/05 - Artistic Diving/05 - Artistic Diving.csproj" />
+    <Project Path="Solutions/06 - Control Circuit/06 - Control Circuit.csproj" />
+  </Folder>
+  <Project Path="Tests/Tests.csproj" />
+</Solution>

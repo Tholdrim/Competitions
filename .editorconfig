@@ -17,11 +17,9 @@ end_of_line              = crlf
 
 trim_trailing_whitespace = false
 
-[*.sln]
+[*.slnx]
 
 end_of_line              = crlf
-indent_size              = 4
-indent_style             = tab
 
 [*.cs]
 
