@@ -58,6 +58,10 @@ This repository contains tasks and my solutions from various programming competi
 24. Crossed Wires ([description](https://adventofcode.com/2024/day/24) / [solution](Advent%20of%20Code%202024/24.%20Crossed%20Wires.cs))
 25. Code Chronicle ([description](https://adventofcode.com/2024/day/25) / [solution](Advent%20of%20Code%202024/25.%20Code%20Chronicle.cs))
 
+### [Advent of Code 2025](https://adventofcode.com/2025)
+
+1. Secret Entrance ([description](https://adventofcode.com/2025/day/1) / [solution](Advent%20of%20Code%202025/01.%20Secret%20Entrance.cs))
+
 ## License
 
 The source code for my solutions is available under the [MIT licence](LICENSE.txt). The copyright for the tasks belongs to their respective authors. If you believe that any of these should not be published here, please contact me.
