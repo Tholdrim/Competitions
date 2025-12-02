@@ -61,6 +61,7 @@ This repository contains tasks and my solutions from various programming competi
 ### [Advent of Code 2025](https://adventofcode.com/2025)
 
 1. Secret Entrance ([description](https://adventofcode.com/2025/day/1) / [solution](Advent%20of%20Code%202025/01.%20Secret%20Entrance.cs))
+1. Gift Shop ([description](https://adventofcode.com/2025/day/2) / [solution](Advent%20of%20Code%202025/02.%20Gift%20Shop.cs))
 
 ## License
 
