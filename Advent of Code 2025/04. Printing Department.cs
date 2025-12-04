@@ -5,7 +5,7 @@ namespace AdventOfCode2025
     {
         [TestMethod]
         [DataRow("Sample 04.txt", 13, 43, DisplayName = "Sample")]
-        [DataRow("Input 04.txt", 1451, 0, DisplayName = "Input")]
+        [DataRow("Input 04.txt", 1451, 8701, DisplayName = "Input")]
         public void Solve(string fileName, int expectedResult1, int expectedResult2)
         {
             var (result1, result2) = (0, 0);
