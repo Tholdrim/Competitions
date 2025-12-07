@@ -66,6 +66,7 @@ This repository contains tasks and my solutions from various programming competi
 4. Printing Department ([description](https://adventofcode.com/2025/day/4) / [solution](Advent%20of%20Code%202025/04.%20Printing%20Department.cs))
 5. Cafeteria ([description](https://adventofcode.com/2025/day/5) / [solution](Advent%20of%20Code%202025/05.%20Cafeteria.cs))
 6. Trash Compactor ([description](https://adventofcode.com/2025/day/6) / [solution](Advent%20of%20Code%202025/06.%20Trash%20Compactor.cs))
+7. Laboratories ([description](https://adventofcode.com/2025/day/7) / [solution](Advent%20of%20Code%202025/07.%20Laboratories.cs))
 
 ## License
 
