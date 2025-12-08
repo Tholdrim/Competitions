@@ -19,8 +19,6 @@ namespace AdventOfCode2025
 
             for (var i = 0; i < positions.Count - 1; ++i)
             {
-                var (minDistance, index) = (long.MaxValue, -1);
-
                 for (var j = i + 1; j < positions.Count; ++j)
                 {
                     var distance = CalculateDistance(positions[i], positions[j]);
