@@ -68,6 +68,7 @@ This repository contains tasks and my solutions from various programming competi
 6. Trash Compactor ([description](https://adventofcode.com/2025/day/6) / [solution](Advent%20of%20Code%202025/06.%20Trash%20Compactor.cs))
 7. Laboratories ([description](https://adventofcode.com/2025/day/7) / [solution](Advent%20of%20Code%202025/07.%20Laboratories.cs))
 8. Playground ([description](https://adventofcode.com/2025/day/8) / [solution](Advent%20of%20Code%202025/08.%20Playground.cs))
+9. Movie Theater ([description](https://adventofcode.com/2025/day/9) / [solution](Advent%20of%20Code%202025/09.%20Movie%20Theater.cs))
 
 ## License
 
