@@ -70,6 +70,7 @@ This repository contains tasks and my solutions from various programming competi
 8. Playground ([description](https://adventofcode.com/2025/day/8) / [solution](Advent%20of%20Code%202025/08.%20Playground.cs))
 9. Movie Theater ([description](https://adventofcode.com/2025/day/9) / [solution](Advent%20of%20Code%202025/09.%20Movie%20Theater.cs))
 10. Factory ([description](https://adventofcode.com/2025/day/10) / [solution](Advent%20of%20Code%202025/10.%20Factory.cs))
+11. Reactor ([description](https://adventofcode.com/2025/day/11) / [solution](Advent%20of%20Code%202025/11.%20Reactor.cs))
 
 ## License
 
